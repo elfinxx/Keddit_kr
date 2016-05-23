@@ -1,0 +1,42 @@
+Keddit — Intro: Learn Kotlin while developing and Android App
+
+
+Introduction
+소개
+
+새로운 JVM 
+Welcome to this series of Stories where we are going to learn Kotlin, a new JVM language, while developing an Android App. 
+안드로이드 앱을 개발하며 새로운 JVM 언어인 코틀린을 알아가는 연재물에 오신 것을 환영합니다.  
+
+I hope it will help you to learn this incredible language in the context of Android. 
+안드로이드를 개발에 있어서 이 놀라운 언어를 배우는데 도움이 되기를 바랍니다.
+
+This stories will be separated in different Parts. 
+이 연재물은 여러 파트로 분리되어있습니다.
+
+In the Content section you will have the different Parts and the main topics that are going to be discussing there, each Part will include different Kotlin features.
+ Content 섹션에서는 여러가지 파트와   각 파트는 코틀린의 기능들을 
+
+My intention is not to create the best App in the world (I can’t do that hahah) but I’ll try to explain Kotlin and it’s main features while developing this app.
+이 강좌의 목적은 세계 제일의 앱을 만드는 것이 아니라 (할 수도 없습니다 ㅋ) 
+
+We will be learning Kotlin covering topics like Properties and Fields, Data Classes, Null Safety, Extensions Functions, Lambda expressions, Delegation, Higher-Order Functions among other excellent topics and also covering some scenarios that an Android Dev has to deal frequently like Orientation Change (Parcelables), requesting data from service to be shown in the UI, binding and manipulating Views and more. Also, I will assume that you already know Java and have some experience developing Android Apps.
+The App: Keddit
+The App that we are going to develop is a small Reddit Client. It’ll present the latest news from Reddit with an infinite scroll to continuously load more news while you scroll down, showing the title, image, number of comments, time published and the author of the news.
+
+Libraries that we are going to use:
+Retrofit 2.0: To consume public Reddit API.
+RxJava: We will use Observables to decouple the UI thread with our background tasks. In this case to call the API and return this values to the UI.
+Picasso: Load images from Reddit.
+RecyclerView: We will use the RecyclerView to present the information and also to provide the infinite scroll behaviour.
+Kotlin Android Extensions: to bind the UI (Views) with code.
+Repository
+Here you have all the code that we are going to be creating/reviewing in this series of Stories.
+https://github.com/juanchosaravia/Keddit
+In the next story we will be configuring Android Studio to be ready for Kotlin but for now, if you are curious, you can start reviewing the code in the repository.
+If you have any question, please feel free to contact me in these social networks. I’ll try to do my best to answer if I can, otherwise we will learn together :)
+Twitter: https://twitter.com/juanchosaravia
+LinkedIn: https://www.linkedin.com/in/juansaravia
+Next Post:
+Part 1: Configuring Android Studio with Kotlin
+
