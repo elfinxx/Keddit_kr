@@ -4,39 +4,62 @@ Keddit — Intro: Learn Kotlin while developing and Android App
 Introduction
 소개
 
-새로운 JVM 
-Welcome to this series of Stories where we are going to learn Kotlin, a new JVM language, while developing an Android App. 
-안드로이드 앱을 개발하며 새로운 JVM 언어인 코틀린을 알아가는 연재물에 오신 것을 환영합니다.  
+새로운 JVM
+Welcome to this series of Stories where we are going to learn Kotlin, a new JVM language, while developing an Android App.
+안드로이드 앱을 개발하며 새로운 JVM 언어인 코틀린을 알아가는 연재물에 오신 것을 환영합니다.
 
-I hope it will help you to learn this incredible language in the context of Android. 
+I hope it will help you to learn this incredible language in the context of Android.
 안드로이드를 개발에 있어서 이 놀라운 언어를 배우는데 도움이 되기를 바랍니다.
 
-This stories will be separated in different Parts. 
+This stories will be separated in different Parts.
 이 연재물은 여러 파트로 분리되어있습니다.
 
 In the Content section you will have the different Parts and the main topics that are going to be discussing there, each Part will include different Kotlin features.
- Content 섹션에서는 여러가지 파트와   각 파트는 코틀린의 기능들을 
+ Content 섹션에서는 여러가지 파트와   각 파트는 코틀린의 기능들을
 
 My intention is not to create the best App in the world (I can’t do that hahah) but I’ll try to explain Kotlin and it’s main features while developing this app.
-이 강좌의 목적은 세계 제일의 앱을 만드는 것이 아니라 (할 수도 없습니다 ㅋ) 
+이 강좌의 목적은 세계 제일의 앱을 만드는 것이 아니라 (할 수도 없습니다 ㅋ) 앱을 개발하며 코틀린을 설명하고 주요 기능들을 설명하고자 하는 것입니다.
 
-We will be learning Kotlin covering topics like Properties and Fields, Data Classes, Null Safety, Extensions Functions, Lambda expressions, Delegation, Higher-Order Functions among other excellent topics and also covering some scenarios that an Android Dev has to deal frequently like Orientation Change (Parcelables), requesting data from service to be shown in the UI, binding and manipulating Views and more. Also, I will assume that you already know Java and have some experience developing Android Apps.
+We will be learning Kotlin covering topics like Properties and Fields, Data Classes, Null Safety, Extensions Functions, Lambda expressions, Delegation, Higher-Order Functions among other excellent topics and also covering some scenarios that an Android Dev has to deal frequently like Orientation Change (Parcelables), requesting data from service to be shown in the UI, binding and manipulating Views and more.
+이 연재물에서는 Properties and Fields, Data Classes, Null Safety, Extensions Functions, Lambda expressions, Delegation, Higher-Order Functions뿐만 아니라 다른 훌륭한 주제들도 다루며 안드로이드 개발 시에 접하는 몇가지 시나리오들, 예를 들어 가로/세로 전환이나 서비스에 데이터를 요청하여 화면에 보여주고 Views에 바인딩하고 다루는 방법등도 다룰 예정입니다.
+
+Also, I will assume that you already know Java and have some experience developing Android Apps.
+이 연재물의 구독자는 자바를 이미 알고 안드로이드 앱 개발에 어느정도 경험이 있다고 생각할 것입니다.
+
 The App: Keddit
 The App that we are going to develop is a small Reddit Client. It’ll present the latest news from Reddit with an infinite scroll to continuously load more news while you scroll down, showing the title, image, number of comments, time published and the author of the news.
+우리는 작은 reddit 클라이언트 앱을 개발할 것입니다. 이 앱은 reddit으로부터 최근 뉴스들을 받아와 뉴스의 제목, 이미지, 댓글 갯수, 작성된 시간과 뉴스 작성자 정보를 infinite scroll을 이용해 스크롤을 내려 나가면 끊김 없이 보여줄 것입니다.
 
 Libraries that we are going to use:
+사용할 라이브러리들:
 Retrofit 2.0: To consume public Reddit API.
+Retrofit 2.0: reddit의 public api를 이용할 때 사용합니다.
+
 RxJava: We will use Observables to decouple the UI thread with our background tasks. In this case to call the API and return this values to the UI.
+RxJava: UI 스레드와 백그라운드 태스크를 분리하기 위해 Observables을 사용합니다. API를 요청하고 UI로 결과값을 전달할 때 사용 됩니다.
+
 Picasso: Load images from Reddit.
+Picasso: reddit으로부터 이미지를 불러올 때 사용됩니다.
+
 RecyclerView: We will use the RecyclerView to present the information and also to provide the infinite scroll behaviour.
+RecyclerView: 정보를 보여주고 infinite scroll 기능을 쓰기 위해 RecyclerView를 사용합니다.
+
 Kotlin Android Extensions: to bind the UI (Views) with code.
+Kotlin Android Extensions: 코드와 UI(Views)를 연결하기 위해 사용합니다.
+
 Repository
 Here you have all the code that we are going to be creating/reviewing in this series of Stories.
 https://github.com/juanchosaravia/Keddit
+이 연재물에서 사용된 모든 코드들은 Github에 올라가 있습니다.
+
 In the next story we will be configuring Android Studio to be ready for Kotlin but for now, if you are curious, you can start reviewing the code in the repository.
+다음 장에서는 먼저 코틀린을 사용하기 위해 안드로이드 스튜디오를 설정하는 방법을 다룰 것입니다. 뭐 저장소의 코드를 먼저 살펴봐도 상관 없습니다.
+
 If you have any question, please feel free to contact me in these social networks. I’ll try to do my best to answer if I can, otherwise we will learn together :)
+질문이 있다면 언제든 편하게 소셜 네트워크로 연락 주세요. 제가 할 수 있는한 최선을 다해 답변 드릴 겁니다. 모르는건 같이 배워나가면 되요 :)
+
+
 Twitter: https://twitter.com/juanchosaravia
 LinkedIn: https://www.linkedin.com/in/juansaravia
 Next Post:
 Part 1: Configuring Android Studio with Kotlin
-
