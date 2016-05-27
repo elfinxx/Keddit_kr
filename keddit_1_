@@ -42,22 +42,34 @@ If you do this, you will notice that nothing happens. The only thing that you wi
 이걸 하고 나면 all modules with kotlin files이 설정되었다는 메시지 외에는 아무런 일이 일어나지 않습니다.
 
 And that’s why nothing happens because we don’t have any Kotlin file in our project so the Plugin didn’t configure our project. So let’s create a Kotlin file and configure this project again.
-
+아직 우리 프로젝트 안에 코틀린 파일이 없기 때문에 아무일도 일어나지 않습니다. 이제 코틀린 파일을 만들고 프로젝트를 설정해봅시다.
 
 From Java to Kotlin file
+자바 -> 코틀린
+
 In order to have a Kotlin file we are going to convert our already created MainActivity.java file into a Kotlin file. In order to do that just open the MainActivity.java file and open Find Action and start searching “Convert Java to…”
+코틀린 파일을 만들기 위해서 이미 있는 mainactivity.java 파일을 코틀린 파일로 변환할 것입니다. 이걸 하기 위해서는 간단하게 mainactivity.java 파일을 열고 find action 에서 convert java to.. 로 검색합니다.
+
 
 A message will warn us that maybe the conversion is not accurate and required some manual modifications but we are fine for now with this.
 You will see something like this:
+이 메시지는 우리에게 이 변환은 정확하지 않고 몇몇 수작업으로 수정해야할 수도 있다는 사실을 경고합니다만 일단 괜찮아 보입니다.
 
 Right now we are not going to review this file (this will be in the next Post) so we can continue configuring this. Also fur sure you notice the extension name of our new Kotlin file which is “.kt”.
 Configure Project with Kotlin — “Last one :)”
 Now we are ready to configure it. Let’s run again the “Configure Project with Kotlin” action:
-
+지금 당장은 이 파일을 검토할 필요가 없습니다(이건 다음 포스팅에) 일단 설정을 계속 하도록 합시다. 또한 코트린 파일의 확장자가 '.kt' 임을 봐두도록 하세요.
 
 Choose the latest Kotlin version and make sure to have the latest Plugin installed in Android Studio
+최신 코틀린 버전을 선택하고 안드로이드 스튜디오에 최신 플러그인이 설치되어있는지 확인합니다.
+
 A new message will appear allowing us to select which modules we would like to convert and also the Kotlin plugin version that we want to use (just pick the latest one in this case).
+이 새로운 메시지는 우리가 변환하거나 사용하고자 하는 코틀린 플러그인 버전
+
+
 You will notice that the build.gradle file from your module was updated. It will have new configurations like this:
+build.gradle 파일에 모듈이 업데이트 된 것을 확인할 수 있을 것입니다. 새로운 설정은 다음과 같을 것입니다.
+
 apply plugin: 'kotlin-android'
 ...
 sourceSets {
@@ -78,15 +90,33 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
+
+
 At the beginning you had to do this manually but now with the Plugin this is really easy.
+초기에는 이런 설정을 수작업으로 해줘야 했지만 지금은 플러그인이 정말 쉽게 해줍니다.
+
 Run, run, run!
+실행해봅시다.
+
 Everything is ready to run this App and using our new MainActivity.kt Kotlin file :)
+우리의 MainActivity.kt 코틀린 파일을 이용해 앱을 구동시킬 모든 준비가 되었습니다.
+
 
 Repository
+저장소
+
 Here you have the code that we developed in this Part, also it was tagged with the tag name “v0.1” which identify the Part1 of this tutorial.
+이 파트까지 개발한 코드를 다음의 저장소의 v0.1 태그를 통해 볼 수 있습니다.
 https://github.com/juanchosaravia/KedditBySteps/tree/v0.1
+
+
 Conclusion
 As you can see, it’s really easy to configure an Android Studio project with Kotlin, we only need a Kotlin file in the module in order to configure it with the Plugin.
+보시다시피 안드로이드 스튜디오로 코틀린을 사용하도록 설정하는건 정말 쉽습니다. 플러그인을 이용해 모듈을
+
+
 With this new project we are ready to start developing the Keddit App but most important to start learning some Kotlin concepts.
+
+
 Please, if you find something to improve or any suggestion, don’t hesitate to contact me, I’ll try to do my best to answer any question or improve this tutorial.
 See you in the next story!
