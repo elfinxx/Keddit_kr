@@ -7,28 +7,38 @@ Introduction
 새로운 JVM
 Welcome to this series of Stories where we are going to learn Kotlin, a new JVM language, while developing an Android App.
 안드로이드 앱을 개발하며 새로운 JVM 언어인 코틀린을 알아가는 연재물에 오신 것을 환영합니다.
+안드로이드 앱 개발의 새로운 JVM언어인 코틀린(Kotlin)을 알아가는 연재물에 오신 것을 환영합니다.
 
 I hope it will help you to learn this incredible language in the context of Android.
-안드로이드를 개발에 있어서 이 놀라운 언어를 배우는데 도움이 되기를 바랍니다.
+이 연재물이 안드로이드를 개발 환경에서 이 놀라운 언어를 배우는데 도움이 되기를 바랍니다.
+이 연재물이 안드로이드 개발 환경에서 이 놀라운 언어를 배우는데 도움이 되기를 바랍니다.
 
 This stories will be separated in different Parts.
-이 연재물은 여러 파트로 분리되어있습니다.
+이 연재물은 여러 장으로 분리되어있습니다.
+
 
 In the Content section you will have the different Parts and the main topics that are going to be discussing there, each Part will include different Kotlin features.
- Content 섹션에서는 여러가지 파트와   각 파트는 코틀린의 기능들을
+연재물은 여러 파트로 나뉘어 있고 각 파트는 코틀린의 기능들을 포함하여 다룰 예정입니다.이 연재물은 여러 파트로 구분되어있습니다.
+(여러파트로나뉘어진부분은 위에랑 중복된 내용이라 직역하는게 아니면 그냥 생략해도 큰 문제 없어보임) 각 장은 코틀린의 다른 기능들기능들을 포함하여 다룰 예정입니다.이 연재물은 여러 파트로 구분되어있습니다.
 
 My intention is not to create the best App in the world (I can’t do that hahah) but I’ll try to explain Kotlin and it’s main features while developing this app.
-이 강좌의 목적은 세계 제일의 앱을 만드는 것이 아니라 (할 수도 없습니다 ㅋ) 앱을 개발하며 코틀린을 설명하고 주요 기능들을 설명하고자 하는 것입니다.
+이 강좌의 목적은 세계 제일의 앱을 만드는 것이 아니라 (할 수도 없습니다 ㅋ) 안드로이드 앱을 개발하며 코틀린 언어와 코틀린의 주요 기능들을 설명하고자 하는 것입니다.
+
 
 We will be learning Kotlin covering topics like Properties and Fields, Data Classes, Null Safety, Extensions Functions, Lambda expressions, Delegation, Higher-Order Functions among other excellent topics and also covering some scenarios that an Android Dev has to deal frequently like Orientation Change (Parcelables), requesting data from service to be shown in the UI, binding and manipulating Views and more.
-이 연재물에서는 Properties and Fields, Data Classes, Null Safety, Extensions Functions, Lambda expressions, Delegation, Higher-Order Functions뿐만 아니라 다른 훌륭한 주제들도 다루며 안드로이드 개발 시에 접하는 몇가지 시나리오들, 예를 들어 가로/세로 전환이나 서비스에 데이터를 요청하여 화면에 보여주고 Views에 바인딩하고 다루는 방법등도 다룰 예정입니다.
+이 연재물에서는 Properties와 Fields, Data Classes, Null Safety, Extensions Functions, Lambda expressions, Delegation, Higher-Order Functions 뿐만 아니라 다른 흥미로운 주제들도 다루며 안드로이드 개발 시에 접하는 몇 가지 시나리오들, 예를 들어 가로/세로 방향 전환이나 서비스에 데이터를 요청하여 화면에 보여주고 Views에 바인딩하고 조작하는 방법 등도 다룰 예정입니다.
+
 
 Also, I will assume that you already know Java and have some experience developing Android Apps.
-이 연재물의 구독자는 자바를 이미 알고 안드로이드 앱 개발에 어느정도 경험이 있다고 생각할 것입니다.
+이 연재물의 구독자는 자바를 이미 알고 안드로이드 앱 개발에 어느 정도 경험이 있다고 생각할 것입니다.
+이 연재물의 구독자는 자바를 이미 알고 어느 정도의 앱 개발 경험이 있다고 생각할 것입니다.
 
 The App: Keddit
 The App that we are going to develop is a small Reddit Client. It’ll present the latest news from Reddit with an infinite scroll to continuously load more news while you scroll down, showing the title, image, number of comments, time published and the author of the news.
-우리는 작은 reddit 클라이언트 앱을 개발할 것입니다. 이 앱은 reddit으로부터 최근 뉴스들을 받아와 뉴스의 제목, 이미지, 댓글 갯수, 작성된 시간과 뉴스 작성자 정보를 infinite scroll을 이용해 스크롤을 내려 나가면 끊김 없이 보여줄 것입니다.
+이 연재물을 진행하며 우리는 간단한 Reddit 클라이언트 앱을 개발할 것입니다. 이 앱은 reddit으로부터 최근 뉴스들을 받아와 뉴스의 제목, 이미지, 댓글 개수, 작성된 시간과 뉴스 작성자 정보를 infinite scroll을 이용해 스크롤을 내려 나가면서 끊김 없이 보여줄 것입니다.
+우리는 간단한 Reddit 클라이언트 앱을 개발할 것입니다. 이 앱은 reddit으로부터 최근 뉴스들을 받아와 뉴스의 제목, 이미지, 댓글 개수, 작성된 시간과 뉴스 작성자 정보를 infinite scroll을 이용해 끊김 없이 보여줄 것입니다.
+
+
 
 Libraries that we are going to use:
 사용할 라이브러리들:
@@ -53,11 +63,12 @@ https://github.com/juanchosaravia/Keddit
 이 연재물에서 사용된 모든 코드들은 Github에 올라가 있습니다.
 
 In the next story we will be configuring Android Studio to be ready for Kotlin but for now, if you are curious, you can start reviewing the code in the repository.
-다음 장에서는 먼저 코틀린을 사용하기 위해 안드로이드 스튜디오를 설정하는 방법을 다룰 것입니다. 뭐 저장소의 코드를 먼저 살펴봐도 상관 없습니다.
+다음 장에서는 먼저 코틀린을 사용하기 위해 안드로이드 스튜디오를 설정하는 방법을 다룰 것입니다. 궁금하다면 소스 저장소의 코드를 먼저 살펴봐도 상관없습니다.
+다음 장에서는 코틀린을 사용하기 위해 안드로이드 스튜디오를 설정하는 방법을 다룰 것입니다. 궁금하다면 소스 저장소의 코드를 먼저 살펴봐도 상관없습니다.
+
 
 If you have any question, please feel free to contact me in these social networks. I’ll try to do my best to answer if I can, otherwise we will learn together :)
-질문이 있다면 언제든 편하게 소셜 네트워크로 연락 주세요. 제가 할 수 있는한 최선을 다해 답변 드릴 겁니다. 모르는건 같이 배워나가면 되요 :)
-
+질문이 있다면 언제든 편하게 소셜 네트워크로 연락 주세요. 제가 할 수 있는 한 최선을 다해 답변드릴 겁니다. 모르는 건 같이 배워나가면 돼요 :)
 
 Twitter: https://twitter.com/juanchosaravia
 LinkedIn: https://www.linkedin.com/in/juansaravia
