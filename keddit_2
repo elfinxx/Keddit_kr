@@ -1,0 +1,142 @@
+Part 2: Syntax, Null Safety and more…
+
+In this Part we are going to focus on understanding some basic syntax of the language and also adding all the code that we need for the MainActivity.kt in order to open our fragment.
+
+Kotlin Syntax
+Now our MainActivity is a Kotlin file and we are ready to start learning the syntax. The first time that you see the code it may cause you a little bit of fear but believe me that you are going to love it! ;)
+Kotlin is defined in many ways and this is one of them (which I really like) that tries to include the most important characteristics in one sentence:
+
+Kotlin is a Concise, Safe and Statically typed programming language focused on Interoperability with Java.
+
+Let’s use this definition to start reviewing our generated code. I give you here both MainActivity files: Java and Kotlin files.
+
+MainActivity.class: Before to be converted
+
+MainActivity.kt
+
+
+Concise
+Did you notice that the Java file has 19 lines of code and the Kotlin file has only 12?
+This is because most of the verbosity of Java was eliminated. Concise code takes less time to write and to read so this will improve your productivity.
+Extend and Implement:
+The words “extends” and “implement” were replaced by a colon “:” indifferently. In this case we are extending from AppCompatActivity (which is a Java class!)
+
+class MainActivity : AppCompatActivity()
+
+Fun — ctions
+We don’t have our classic “public void methodName()” structure. Now we define functions inside our class with the “fun” keyword and the return type is added to the end. But where is the type returned from our “onCreate” method?
+
+override fun onCreate(savedInstanceState: Bundle?) {
+
+In the case that we don’t want to return any value in Java we would use “void”, here the alternative is “Unit” which works in the same way. The compiler will know that we are not returning anything so we can omit it. In the case that we want to add it just do it in this way:
+
+override fun onCreate(savedInstanceState: Bundle?) : Unit {
+
+Also the parameters are in a different order. First you define the name of the variable and then the type.
+
+Bye Semicolon;
+In Kotlin you don’t have to put the semicolon at the end of a sentences but still you can do it if you want (don’t do it).
+
+Values and Variable
+The way to define a variable is with the “var” keyword. The type will be inferred from the Context and the same for constants which use the “val” keyword:
+
+val price = 100        // Int
+price = 30             // don't compile! it's a constant
+var total = price * 3  // Int
+val name = "Juancho"   // String
+
+You can specify the type explicitly:
+
+val lastname : String = "Keddit" // explicit type definition
+var size : Double = 30.0
+var time : Float = 15f
+
+Maybe you notice that there are no primitive types, we don’t use “double” but “Double”. This is because everything in Kotlin is an object. For performance, the compiler will transform some of this objects to primitive types internally.
+
+Properties and Fields
+In Kotlin you access properties like accessing a field in Java. Instead of calling the getResources() method from an Activity you directly do:
+
+resources.getString(R.string.id)
+// vs
+getResources().getString(R.string.id) // still allowed
+
+You can still call the getResource() method but Android Studio will suggest you to change it:
+
+It doesn’t mean that you are accessing the field directly, it’s calling the “getResource()” method but in a more convenient way.
+
+
+Safe ?: Safe!
+This is one of the great things about Kotlin, everything in Kotlin is not nullable unless you specifically declare it in this way. The way to do this is with the “?” question mark which also suggest you that the value could be there or not.
+With that being said, let’s see some examples:
+
+val a : String = null  // don't compile!
+var b : Int            // neither! must be initialized
+val ok : String? = null // OK :)
+
+The compiler will be checking the presence of a possible null object, this will prevent us to make the common mistake of getting a “NullPointerException” or well known as the “Billion-dollar mistake” by Tony Hoare.
+
+Safe call
+To interact with a nullable object is really easy, the “?” question mark will allow you to get the value just in case it exists, otherwise it will ignore it and you are safe to continue running the program:
+
+val context : Context? = null
+val res = context?.getResources() // not crash, res will be null
+
+
+Smart cast
+If you continue playing with nullable objects maybe you end up doing this:
+
+val context : Context? = null
+val res = context?.getResources()
+val appName = res?.getString(R.string.app_name)
+val shortName = appName?.substring(0, 2)
+
+This is awful, but you can do this in a better way with smart cast. Just check if context is null and inside the if block the context will be considered as a non-nullable object:
+
+val context : Context? = null
+if (context != null) {
+    val res = context.getResources()    // Don't need '?' anymore
+    val appName = res.getString(R.string.app_name)
+    val shortName = appName.substring(0, 2)
+}
+
+Elvis Operator ?:
+This is the name used for this operator “?:” and you can use it to give an alternative value in case the object is null. Its like a short way to perform a null check. In this example “message” could be null, the type is “String?”. In case the object is NOT null we’ll be sending the value of message, otherwise, the value that we provided after the elvis operator:
+
+try {
+    // code...
+} catch (e: Throwable) {
+    Log.e("TAG", e.message ?: "Error message")
+}
+
+Note: if you want to know more about null safety, checkout this link: https://kotlinlang.org/docs/reference/null-safety.html
+
+
+Statically Typed
+It means that Kotlin needs to know the Type of everything that you define in the code because the compiler will do a type check during compilation. With the great support that we have in Android Studio (Thanks to JetBrains) the IDE will do a great job helping us to know if we are assigning properly a value to a variable.
+Furthermore, we don’t have to specify the type when we create a variable (or a constant in this case). Checkout the toolbar constant, the type is inferred from the context and this is another great feature about Kotlin:
+
+val toolbar = findViewById(R.id.toolbar) as Toolbar
+
+Type inference brings great advantages to the language: Reliability (the compiler verifies the correctness of the program), Maintainability (the code is explained by itself), Tool support (what I mentioned before, static typing enables reliable refactoring, code completion and more) and Performance (in most cases there is no need to figure out at runtime which method needs to be called).
+
+
+100% Java Interoperability
+This is another great feature about Kotlin, you can use Java code from a Kotlin file and vice-versa. In the Keddit App we are extending from AppCompactActivity, using the Bundle object in the onCreate method and of course using all the Android SDK to create our App :). Also, we are using other Java libraries like Retrofit, Picasso, etc.
+Something really important about this is that Kotlin doesn’t have its own collections library, it relies on Java standard library classes, extending those classes with new functions. This means that you never need to convert objects between Java and Kotlin.
+
+
+Updating MainActivity
+I just added some methods to the MainActivity to open a fragment which will be creating in the next story and also removed some code that we don’t need in this case all related things to the menu settings.
+Checkout the code to see the activity and try to understand these new concepts:
+https://github.com/juanchosaravia/KedditBySteps/blob/master/app/src/main/java/com/droidcba/kedditbysteps/MainActivity.kt
+Notice how I’m using the Fragment Manager:
+val ft = supportFragmentManager.beginTransaction();
+// and not getSupportFragmentManager()
+The new method “changeFragment()” will allow us to open a fragment inside this activity with a fade animation.
+Repository
+https://github.com/juanchosaravia/KedditBySteps/tree/v0.2
+Conclusion
+This is just a small part of some Kotlin concepts, we are going to continue learning more while we continue developing the Keddit App.
+If you want to learn more about this concepts, checkout this link which I consider really useful: http://try.kotlinlang.org/
+See you in the next story!
+Twitter: https://twitter.com/juanchosaravia
