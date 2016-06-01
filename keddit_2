@@ -78,21 +78,21 @@ In Kotlin you don’t have to put the semicolon at the end of a sentences but st
 Values and Variable
 값과 변수
 The way to define a variable is with the “var” keyword.
-변수를 정의하려면 "var" 키워드를 이용합니다.
+변수(variable)를 정의하려면 "var" 키워드를 이용합니다.
 
 The type will be inferred from the Context and the same for constants which use the “val” keyword:
-변수의 타입은
+변수의 타입은 context에 의해 추론되며 같은 방법로 상수(constant)는 val 키워드를 이용합니다.
 
 
 val price = 100        // Int
-price = 30             // don't compile! it's a constant
+price = 30             // 상수에 값을 대입하려 했기 때문에 컴파일 오류 발생.
 var total = price * 3  // Int
 val name = "Juancho"   // String
 
 You can specify the type explicitly:
 타입을 명시적으로 지정해줄 수도 있습니다.
 
-val lastname : String = "Keddit" // explicit type definition
+val lastname : String = "Keddit" // 명시적인 타입 선언
 var size : Double = 30.0
 var time : Float = 15f
 
@@ -100,22 +100,23 @@ Maybe you notice that there are no primitive types, we don’t use “double” 
 "double"을 사용하지 않고 "Double"을 사용하는 것처럼 primitive 타입을 사용하지 않았다는 걸 볼 수 있었을 것입니다.
 
 This is because everything in Kotlin is an object. For performance, the compiler will transform some of this objects to primitive types internally.
-코틀린의 모든 것은 객체(object)이기 때문에 그렇습니다. 성능 향상을 위해 컴파일러는 내부적으로 이런 몇몇 객체들을 primitive 타입으로 변환할 것입니다.
+코틀린의 모든 것은 객체(object)이기 때문에 그렇습니다. 성능 향상을 위해 컴파일러는 내부적으로 이런 객체 중 일부는 primitive 타입으로 변환시킵니다.
 
 Properties and Fields
 Properties와 Fields
 In Kotlin you access properties like accessing a field in Java. Instead of calling the getResources() method from an Activity you directly do:
-코틀린에서 자바의 필드를 access하는 것처럼 property를 access할 수 있습니다. getResources() 메서드를 호출하는 것 대신  Activity에서 직접 할 수 있는데
+코틀린에서 자바의 필드를 접근(access)하는 것처럼 property를 접근 할 수 있습니다. Activity에서 getResources() 메서드를 호출하는 것 대신 직접 접근하면 됩니다.
 
 resources.getString(R.string.id)
 // vs
-getResources().getString(R.string.id) // still allowed
+getResources().getString(R.string.id) // 이것도 가능함.
 
 You can still call the getResource() method but Android Studio will suggest you to change it:
 여전히 getResoucre() 메서드를 호출할 수 있습니다만 안드로이드 스튜디오가 바꿀 수 있다고 제안할껍니다.
 
+
 It doesn’t mean that you are accessing the field directly, it’s calling the “getResource()” method but in a more convenient way.
-이건 filed에 직접적으로 access 할 수 있다는 의미가 아니라 단지 getResource() 메서드를 편리하게 호출할 수 있는 것입니다.
+이건 filed에 직접적으로 접근 할 수 있다는 의미가 아니라 단지 getResource() 메서드를 편리하게 호출할 수 있는 것입니다.
 
 
 Safe ?: Safe!
@@ -126,11 +127,11 @@ The way to do this is with the “?” question mark which also suggest you that
 이 값이 없을 수도 있을수도 있다는걸 "?" 물음표를 붙임으로써 나타낼 수 있습니다.
 
 With that being said, let’s see some examples:
-한번 다음의 예제를 봐봅시다.
+말로만 하지 말고 한번 다음의 예제를 봐봅시다.
 
-val a : String = null  // don't compile!
-var b : Int            // neither! must be initialized
-val ok : String? = null // OK :)
+val a : String = null  // 컴파일 오류!
+var b : Int            // 마찬가지로 오류! 반드시 초기화 되야 합니다.
+val ok : String? = null // 우왕굳 :)
 
 The compiler will be checking the presence of a possible null object, this will prevent us to make the common mistake of getting a “NullPointerException” or well known as the “Billion-dollar mistake” by Tony Hoare.
 컴파일러는 null이 될 수 있는 객체가 있는지 체크하여 "NullPointerException"이나 잘 알려진 "Billion-dollar mistake"와 같은 실수를 방지할 수 있게 합니다.
@@ -138,10 +139,10 @@ The compiler will be checking the presence of a possible null object, this will 
 
 Safe call
 To interact with a nullable object is really easy, the “?” question mark will allow you to get the value just in case it exists, otherwise it will ignore it and you are safe to continue running the program:
-nullable 객체와 상호작용 하는건 정말 쉽습니다. "?" 물음표를 붙임으로써 값이 존재한다면 얻을 것이고 없다면 무시되어 안전하게 프로그램을 계속 실행할 수 있습니다.
+nullable 객체와 상호작용 하는건 정말 쉽습니다. nullable 객체에 "?" 물음표를 붙임으로써 값이 존재한다면 얻을 것이고 없다면 무시되어 안전하게 프로그램을 계속 실행할 수 있습니다.
 
 val context : Context? = null
-val res = context?.getResources() // not crash, res will be null
+val res = context?.getResources() // res는 null이 되고 crash 나지 않습니다.[2]
 
 
 Smart cast
@@ -165,7 +166,7 @@ if (context != null) {
 
 Elvis Operator ?:
 This is the name used for this operator “?:” and you can use it to give an alternative value in case the object is null.
-Elvis란 "?:" 연산자의 이름이고 객체가 null일 경우 대체 값을 얻기 위해 사용됩니다.
+"?:" 연산자를 elvis 연산자라 부르고 객체가 null일 경우 대체 값을 얻기 위해 사용됩니다.
 
 Its like a short way to perform a null check. In this example “message” could be null, the type is “String?”. In case the object is NOT null we’ll be sending the value of message, otherwise, the value that we provided after the elvis operator:
 이 연산자는 null 체크를 수행하기 위한 축약형 표현이라 보면 됩니다. 이 예제에서 message는 null일 수 있기 때문에 타입은 "String?"입니다. 이 경우 message의 값이 null이 아니라면 전달할 것이고 아니라면 elvis 연산자 뒤의 값을 이용하여 전달할 것입니다.
@@ -184,18 +185,18 @@ null safety에 대해 좀 더 자세한 내용을 알고 싶다면 다음의 링
 Statically Typed
 정적 타입
 It means that Kotlin needs to know the Type of everything that you define in the code because the compiler will do a type check during compilation.
-정적 타입이란 의미는 코틀린은 컴파일 타임에 타입을 체크하여 컴파일러가 코드에 정의된 모든 것들의 타입을 알 수 있어야 한다는 것입니다.
+정적 타입이란 의미는 코틀린이 컴파일 타임에 타입을 체크하여 컴파일러가 코드에 정의된 모든 것들의 타입을 알 수 있어야 한다는 것입니다.
 
 With the great support that we have in Android Studio (Thanks to JetBrains) the IDE will do a great job helping us to know if we are assigning properly a value to a variable.
-변수에 값을 잘 할당될 수 있도록 안드로이드 스튜디오(젯브레인에 ㄱㅅ)라는 강력한 IDE의 지원으로 도와줄 것입니다.
+변수에 값을 잘 할당될 수 있도록 우리가 사용하고 있는 안드로이드 스튜디오(젯브레인 ㄱㅅ)라는 강력한 IDE의 도움을 받을 것 입니다.
 
 Furthermore, we don’t have to specify the type when we create a variable (or a constant in this case). Checkout the toolbar constant, the type is inferred from the context and this is another great feature about Kotlin:
-더불어 변수(혹은 상수)를 생성할 때 타입을 지정해줄 필요가 없습니다. 다음 toolbar constant를 보면 타입은 context로부터 추론되는데 이건 코틀린의 또 다른 훌륭한 점 중 하나입니다.
+뿐만 아니라 변수(혹은 상수)를 생성할 때 타입을 지정해줄 필요가 없습니다. 다음 toolbar constant를 보면 타입은 context로부터 추론되는데 이건 코틀린의 또 다른 훌륭한 점 중 하나입니다.
 
 val toolbar = findViewById(R.id.toolbar) as Toolbar
 
 Type inference brings great advantages to the language: Reliability (the compiler verifies the correctness of the program), Maintainability (the code is explained by itself), Tool support (what I mentioned before, static typing enables reliable refactoring, code completion and more) and Performance (in most cases there is no need to figure out at runtime which method needs to be called).
-타입 추론은 언어의 신뢰성(컴파일러가 프로그램의 정확성을 검증)과 도구 지원(전에 언급했듯이 정적 타입은 리팩토링 때 신뢰성 및 코드 자동완성 등을 가능하게 함) 및 성능(대부분의 경우 메서드가 호출될 필요가 있는지 런타임 시에 파악할 필요가 없음)에 있어서 큰 장점입니다.
+타입 추론은 언어의 신뢰성(컴파일러가 프로그램의 정확성을 검증)과 유지보수성(Maintainability, 스스로 설명하는 코드), 도구 지원(전에 언급했듯이 정적 타입은 리팩토링 때 신뢰성 및 코드 자동완성 등을 가능하게 함) 및 성능(대부분의 경우 메서드가 호출될 필요가 있는지 런타임 시에 파악할 필요가 없음)에 있어서 큰 장점입니다.
 
 100% Java Interoperability
 자바와 100% 호환
@@ -205,7 +206,7 @@ In the Keddit App we are extending from AppCompactActivity, using the Bundle obj
 Keddit 앱에서 AppCompatActivity를 extend, onCreate 메서드의 Bundle 객체를 사용하는 것, 앱을 만들 때 Android SDK를 사용하는 것에서 그 예를 찾아볼 수 있습니다.
 
 Also, we are using other Java libraries like Retrofit, Picasso, etc.
-또한 이미 자바 라이브러리인 retrofit이나 picasso등을 사용하고 있습니다.
+또한 이미 자바 라이브러리인 Retrofit이나 Picasso등을 사용하고 있습니다.
 
 Something really important about this is that Kotlin doesn’t have its own collections library, it relies on Java standard library classes, extending those classes with new functions. This means that you never need to convert objects between Java and Kotlin.
 자바와 호환된다는 사실은 코틀린은 자체적인 collection 라이브러리 없이 자바의 standard library class에 의존하며 이 class들을 새로운 함수로 확장해서 쓰고 있다는 것을 보면 알 수 있습니다. 이 말은 Java와 코틀린 사이에 객체를 변환할 필요가 없다는 것입니다.
