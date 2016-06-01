@@ -81,7 +81,7 @@ The way to define a variable is with the “var” keyword.
 변수(variable)를 정의하려면 "var" 키워드를 이용합니다.
 
 The type will be inferred from the Context and the same for constants which use the “val” keyword:
-변수의 타입은 context에 의해 추론되며 같은 방법로 상수(constant)는 val 키워드를 이용합니다.
+변수의 타입은 할당되는 값(context)에 의해 추론되며 같은 방법로 상수(constant)는 val 키워드를 이용합니다.
 
 
 val price = 100        // Int
