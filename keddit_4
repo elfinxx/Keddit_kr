@@ -1,0 +1,313 @@
+Part 4: RecyclerView — Delegate Adapters & Data Classes with Kotlin
+If this is the first time that you read this tutorial, please I encourage you to read the Introduction part just to get a general idea about what we are going to be developing in this tutorial.
+이 튜토리얼을 처음으로 읽는다면 소개 파트부터 읽어오는 걸 추천.
+
+
+Also you can follow me on Twitter: https://twitter.com/juanchosaravia
+
+
+Introduction
+
+In this 4th Part we are going to cover these topics about Kotlin:
+이번 코틀린에 대한 4번째 파트에서는 어떤 내용을 소개할 꺼냐면
+
+Init Constructor
+Object Expressions
+Single Expressions
+Data Classes
+Ranges
+List & Lambdas (introduction)
+
+
+Each topic will be inside the context of creating our NewsAdapter adapter and using the Delegate Adapter pattern.
+각 주제는 이번에 만들 NewsAdapter 어뎁터를 생성하고 델리게이트 어댑터 패턴을 사용할 때 녹아있을 것입니다.
+
+So let’s start creating our adapter and show something in the screen!
+자 이제 어뎁터 생성과 화면에 뭔가 보여줄 작업을 시작해봅시다.
+
+Creating the NewsAdapter
+뉴스어댑터 만들기
+
+We are going to create a new adapter for our RecyclerView.
+리사이클러뷰를 위한 새로운 어댑터를 만들 것입니다.
+In this case, we are going to do it with a pattern called “Delegate Adapter”, we use it in our company and it was inspired by this article by Hannes Dorfmann.
+이 패턴은 Hannes Dorfmann이 작성한 이 글에 영감을 받았고 우리 회사에서 사용하고 있는  델리게이트 어댑터라 불리는 패턴을 사용할 것이고
+
+Our Adapter will have a list of delegated adapters, those are going to be in charge of knowing how to inflate and return a specific view in the RecyclerView.
+우리가 만들 어댑터는 델리게이트 어뎁터들의 목록들을 갖고 있을 것이고 어떻게 inflate 하는지 알고 리사이클러뷰의 특정 뷰를 리턴 해주는 역할을 합니다.
+
+The general idea behind of this is to receive a list of ViewType items
+
+and according to this ViewType get the corresponding Delegate Adapter to inflate and populate the view for this item.
+이 보편적인 아이디어의 ViewType 아이템들의 리스트를 받고 이 ViewType에 따라 이 아이템의 뷰를 펼치고 inflate 하는 관련된 델리게이트 어뎁터를 얻기 위한
+
+The item will be used to be passed as argument to the delegated adapter so the item can be used to extract specific data for this View.
+The main idea behind of this is to match items (ViewType objects) with specific adapters (Delegated Adapters) like you can see in this image:
+이 아이템은 델리게이트 어뎁터로 argument를 넘기는데 사용될 것이며 이 아이템은 이 뷰의 특정 데이터를 extract하는데 사용될 것입니다. 이
+
+The main idea behind of this is to match items (ViewType objects) with specific adapters (Delegated Adapters) like you can see in this image:
+item에 맞는 특정 어댑터를 짝지어 주는 것이 주된 아이디어 입니다. 다음 이미지를 봅시다.
+
+Thanks to the ViewType, we know what delegated adapter we need to use to create the View for this item.
+이 아이템을 위한 뷰를 생성하는데 어떤 델리게이트 어탭터가 필요한지를 ViewType 덕분에 알 수 있습니다.
+
+In our case, the items will be a list of news and at the end of the list we will add a loading item to give the idea that more news are coming.
+우리 경우에는 이 아이템들은 뉴스의 리스트를 보여주고 리스트의 끝부분에서 새로운 뉴스들을 더 불러올 수 있게하는 로딩 입니다.
+
+
+So we will need two delegated adapters, one for the News and another for the Loading.
+이제 필요한 로딩을 위한 것과 뉴스를 위한 두개의 델리게이트 어댑터가 필요합니다.
+
+This approach gives you a lot of flexibility to add new Views to your RecyclerView, just add a new delegated adapter that correspond to a new ViewType and that’s all!
+이러한 방법은 리사이클러뷰에 새로운 뷰를 추가할 때 유연함을 제공합니다. 단지 새로운 ViewType에 연결되는 새로운 델리게이트 어댑터를 추가함으로써 모든게 끝입니다.
+
+
+for example, we could add a new ViewType for Promotions and the corresponding Delegate Adapter to inflate a view with promotions.
+예를 들어 프로모션을 위한 새로운 ViewType을 추가하고 이와 관련되어 이 프로모션 뷰를 inflate하기 위한 델리게이트 어댑터를 추가해주면 됩니다.
+
+Let’s continue learning more about the classes and interfaces that we need to accomplish this.
+이 작업을 마무리 하기 위해 클래스와 인터페이스에 대해 좀 더 배워봅시다.
+
+ViewType
+Is an interface that we will use for the items that we are going to show in the RecyclerView.
+ViewType은 우리가 RecyclerView 에 표시 하고자하는 항목을 사용 하는 인터페이스입니다.
+
+Each item must implement this interface so we can ask to each item the ViewType type (int value) and search for the corresponding delegated adapter to this type:
+각 아이템은 반드시 구현되어야 하고
+이 인터페이스에 ViewType 타입(int value)이 뭔지 물어볼 수 있고 ()이걸 이용해) 이 타입에 관련된 델리게이트 어댑터가 뭔지 찾을 수 있습니다.
+
+interface ViewType {
+    fun getViewType(): Int
+}
+
+In our Adapter we will have a ViewType’s list called items:
+우리의 어댑터는 이제 itmes라 불리는 ViewType의 list를 갖게 될 것입니다.
+
+private var items: ArrayList<ViewType>
+
+
+Here we are going to store the news and the loading item.
+이제 뉴스를 저장하고 아이템을 로딩하는걸 해보도록 합시다.
+
+Our news model will extend from ViewType and we are going to create a new item locally for the Loading item.
+우리의 뉴스 모델은 ViewType을 확장하고 로딩 아이템에 대해 새로운 locally item을 만들 것입니다.
+
+Let’s add a Loader to our recycler view
+우리의 리사이클러뷰에 로더를 추가해봅시다.
+
+We need 3 things:
+3가지가 필요합니다.
+The ViewType Type: This will be an integer value (like an ID) to match our ViewType with the delegated adapter (AdapterConstants.LOADING).
+ViewType 타입: int value로  된 (ID처럼) ViewType과 델리게이트 어댑터를 짝지어주는데 사용됩니다. (AdapterConstants.LOADING)
+
+The ViewType Item: This will be an object that implements the ViewType interface and return the ViewType Type (ID).
+ViewType item: ViewType interface을 implement하고 TypeType의 타입을 돌려주는 객체입니다.
+
+This will allow us to insert this item to the items list and tell the adapter to render this view.
+새로운 아이템을 아이템 리스트에 넣을 수 있고 이 뷰를 그리는데 필요한 어뎁터를 알려주는 역할을 합니다.
+
+The Loading Delegate Adapter: which will be in charge of inflating the view and return it to our NewsAdapter.
+Loading Delegate ADapter: view를 inflate하는 역할과 새로운 뉴스 어뎁터를 리턴 해주는 역할을 합니다.
+
+
+Loading Delegate Adapter Impl
+로딩 델리게이트 어뎁터의 구현
+
+class LoadingDelegateAdapter : ViewTypeDelegateAdapter {
+
+    override fun onCreateViewHolder(parent: ViewGroup) = TurnsViewHolder(parent)
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {
+    }
+
+    class TurnsViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
+            parent.inflate(R.layout.news_item_loading)) {
+    }
+}
+
+
+
+As you can see we are creating our Delegate Adapter by extending another interface called “ViewTypeDelegateAdapter”.
+만든 델리게이트 어댑터를 보면 ViewTypeDelegateAdapter라 불리는 다른 interface를 extend한 것을 알 수 있을 껍니다.
+
+This interface allow us to have a generic list of delegate adapters and invoke those methods without requiring us to have in our NewsAdapter to know nothing specific of the delegated adapters implementation.
+이 인터페이스는 델리게이트 어뎁터의 generic 목록을 갖고 있도록 하고 메서드 호출 시 우리의 NewsAdapter가 델리게이트 어뎁터의 구현을 알지 못해도
+
+One method to create the ViewHolder and another to bind it.
+한 메서드는 ViewHolder를 만들고 다른 것과 bind 되도록 합니다.
+
+
+Bind ViewType Type with a Delegate Adapter
+
+We are going to use a map in order to bind a ViewType type with a delegated adapter:
+ViewType과 델리게이트 어댑터를 bind하기 위해서 map을 사용할 것입니다.
+
+private var delegateAdapters = SparseArrayCompat<ViewTypeDelegateAdapter>()
+init {
+    delegateAdapters.put(AdapterConstants.LOADING, LoadingDelegateAdapter())
+    ...
+}
+
+
+Init Constructor
+init is the reserved word in Kotlin for a constructor of a class (in this case NewsAdapter), here we are going to initialize this map adding every ViewType type with the corresponding delegated adapter.
+init은 클래스의 생성자로 코틀린에서 예약어로 사용됩니다. ViewType과 델리게이트 어뎁터를 추가할 때마다 초기화하여 사용합니다 (?)
+
+In this case:
+AdapterConstants.LOADING > LoadingDelegateAdapter()
+
+In order to create a new object in Kotlin you don’t need to use the “new” keyword.
+코틀린에서는 새로운 객체를 생성할 때 'new' 키워드를 사용할 필요 없습니다.
+
+Loading ViewType Item
+
+Let’s create our Loading item, this item will help us to render the Loading view in the position that we insert it in the items list:
+새로운 로딩 아이템을 만들어 봅시다. 이 아이템은 아이ㅔㅁ 리스트에  로딩뷰를 랜더할
+
+private val loadingItem = object : ViewType {
+    override fun getViewType() : Int {
+        return AdapterConstants.LOADING
+    }
+}
+
+Also add this item by default as the first item to render in the list:
+그리고 이 아이템은 기본적으로 리스트의 첫번째 아이템으로 랜더 되도록 추가합니다.
+
+init {
+    delegateAdapters.put(...)
+    items = ArrayList()
+    items.add(loadingItem)
+}
+
+Object Expressions
+
+In Kotlin you have something called “Object expressions”, which works in a similar way as anonymous inner classes in Java, and allows you to create an object without explicitly declaring a new subclass for it.
+코틀린에서는 Object expressions라 불리는 자바에서 익명 내부 클래스와 비슷한 방법을 하는 것이 있습니다. 이 방법은 상속 객체를 만들 때 객체를 명시적으로 선언하지 않고 할 수 있도록 합니다.
+
+In this case we are using it to define our loadingItem without creating a new class.
+이번 경우에는 우리의 로딩아이템을 선언할 때 새로운 클래스 선언 없이 사용할 때 사용합니다.
+
+The syntax is really intuitive and as you can see we are extending from ViewType and implementing the required interface.
+이 구문은 정말 직관적이고 필요한 interface를 구현하고 viewType을 extend하는걸 보면 알 수 있습니다.
+
+
+Single Expressions
+The getViewType() method has only a single expression function inside the body. In Kotlin we can take advantage of this and convert this method:
+getViewType메서드를 보면 함수 몸체가 한줄 인걸 볼 수 있습니다. 이걸 코틀린에서
+
+override fun getViewType() : Int {
+    return AdapterConstants.LOADING
+}
+To this:
+override fun getViewType() = AdapterConstants.LOADING
+It’s like we are assigning the value AdapterConstants.LOADING to a function. This is a short way to do the same and it’s really more concise. Also you don’t have to specify the return value type as it can be inferred by the context. So this is how it looks now:
+private val loadingItem = object : ViewType {
+    override fun getViewType() = AdapterConstants.LOADING
+}
+Commit
+All this code can be found in this commit:
+https://github.com/juanchosaravia/KedditBySteps/commit/ecc2546b5a0001149f9fe0ca3295d31ecd9ac542
+As the concept of Delegate Adapters was explained, I’m not going to continue explaining every detail but to focus on Kotlin concepts in the rest of the tutorial.
+News Item with Data Classes
+Before creating our News delegate adapter and configure the NewsAdapter to receive a list of news, we need our UI object to represent each news. In Java we would normally create a class like this:
+public class RedditNewsItem {
+
+    private String author;
+    private String title;
+
+    public MyNews(String author, String title) {
+        this.author = author;
+        this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+}
+Again, Kotlin has come to help us with a new class type called “data class” which brings you a lot of benefits and for the same example it looks like this:
+data class RedditNewsItem(var author: String, var title: String)
+With this simple line you are doing the same as the previous Java code, it means that author and title has their own getters and setters and it requires a constructor with this two elements. This is just AMAZING! but wait! you still receive more benefits if you take this data class, you receive for free for this class:
+equals/hashCode pair.
+toString() with all the properties included.
+copy() method to make easily a copy of your object.
+and other useful methods that we are not going to see here but you can see more in the official page.
+Commit: Creating Data Class
+https://github.com/juanchosaravia/KedditBySteps/commit/3c200af22879e3ec16aaa963ca38ec7e97659971
+Also we need to make our class to extend ViewType so it can be included in the NewsAdapter list as another item, in this case as a News item:
+https://github.com/juanchosaravia/KedditBySteps/commit/8b7842c0e2dd9e6496ed55b927183344de4ad771
+Creating NewsDelegateAdapter
+Now that we have our News item created, we need our delegate adapter which will be in charge of creating the view. Here you have a preview of what we need:
+
+Preview of just one news
+So we need to:
+Show some texts like title, author, comments, etc
+An image, we are going to use Picasso (see the build.gradle file in the commit below)
+An Extension Function to show the time in this way.
+Here you have all the code added to create the NewsDelegateAdapter as we are not going to go throw each detail:
+https://github.com/juanchosaravia/KedditBySteps/commit/6243623afeb1990a9d98488ee3ffc5623bc9fa61
+Let’s review some Kotlin stuff:
+Extension Function for Picasso
+Allows me to make an ImageView to load it’s image directly:
+fun ImageView.loadImg(imageUrl: String) {
+    if (TextUtils.isEmpty(imageUrl)) {
+        Picasso.with(context).load(R.mipmap.ic_launcher).into(this)
+    } else {
+        Picasso.with(context).load(imageUrl).into(this)
+    }
+}
+Extension Function for Time
+We will be receiving from Reddit, the time of a comment in a long format, so what we are doing here is to convert a Long type to an String with the format like “3 days and 1 minute ago”:
+fun Long.getFriendlyTime(): String {
+    // logic here...
+}
+Checkout the file called “TimeExt.kt” to see the code. For sure, it can be improved but for the purpose of this example is perfect :)
+Android Extensions for News View
+Checkout the file “NewsDelegateAdapter.kt” and you will see that we are also using Android Extensions for this view (like we did with the NewsFragment) but in this case we are adding to the synthetic package an extra value called “view” at the end of the layout name:
+import kotlinx.android.synthetic.main.news_item.view.*
+This is the way that Android Extensions allows you to still bind a view with code without being in the context of an Activity or Fragment (like in this case).
+Update NewsAdapter to receive News
+Let’s modify our NewsAdapter to receive a list of mocked news to be shown with our news and loading delegated adapters:
+
+Commit
+https://github.com/juanchosaravia/KedditBySteps/commit/205258e841d4cc2203cfbcc3e33165fa8a105dce
+Range
+Kotlin allows you to create in an easy way a range of numbers (Int, Long and Char types) by using an expression like this: “1..10”, this will return an IntRange (as we are using Ints in this example), IntRange extends from IntProgression and this implements Iterable. Thanks to this is that we can iterate over the range that we have, in this case from 1 to 10 to create our mock data:
+for (i in 1..10) {
+    ...
+}
+You can control the steps in the range and make it decremental like “10 downTo 1”. More about this you can find it here.
+mutableListOf
+This is a Kotlin function which returns a MutableList, a list that can be modified and in this case is to store locally the mocked news for the adapter:
+val news = mutableListOf<RedditNewsItem>()
+Lists Functions & Lambdas
+I created a method that I’ll be using it later to save the news when we are in the middle of an Orientation Change event but I would like to show you how easy is to work with list to filter and map (transform) every item from a list to another one.
+In our code we have a method called “getNews” which returns a List of RedditNewsItems. In order to filter and transform our items (a list of ViewType) we are going to do this:
+fun getNews(): List<RedditNewsItem> {
+    return items
+            .filter { it.getViewType() == AdapterConstants.NEWS }
+            .map { it as RedditNewsItem }
+}
+Filter
+Every list has some useful functions like “filter”, in this case, which allow us to iterate a list and filter (exclude) items that don’t apply certain condition. In our items list we have ViewTypes so we could have News items or Loading items, with this filter function we make sure to return only those that are News items.
+Map
+Another great function is “map” to transform the items from a list. In this case, we cast a ViewType object to a RedditNewsItem but we could also create and return new objects.
+Lambdas
+.map { it as RedditNewsItem }
+Map is not another think than a function that receives as first parameter a function but Kotlin make it great to allows you to exclude parenthesis and define a code block next to the function name, at the end this code block will be the first parameter required by the function and the code block is the famous Lambda expression, a function that is not declared but passed immediately as an expression
+Here we are not going to go to more details about Lists and Lambdas but I think is really a good starting point to see this kind of examples on how to use this great features. Later in this tutorial we are going to take more time to talk about this.
+Conclusion
+I know that I spent more time explaining the Delegate Adapter pattern than Kotlin specific features but for sure I consider this pattern is really an excellent pattern which deserves to be presented with Kotlin code but I hope you had learned new Kotlin features with this new code. Also our code is getting better (or at list showing something in the UI, lol).
+Don’t hesitate to contact me for any question, I’ll try to do my best to give you an answer.
+Twitter: https://twitter.com/juanchosaravia
