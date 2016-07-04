@@ -141,7 +141,8 @@ Safe call
 To interact with a nullable object is really easy, the “?” question mark will allow you to get the value just in case it exists, otherwise it will ignore it and you are safe to continue running the program:
 nullable 객체와 상호작용 하는건 정말 쉽습니다. nullable 객체에 "?" 물음표를 붙임으로써 값이 존재한다면 얻을 것이고 없다면 무시되어 안전하게 프로그램을 계속 실행할 수 있습니다.
 
-val context : Context? = nullval res = context?.getResources() // res는 null이 되고 crash 나지 않습니다.[2]
+val context : Context? = null
+val res = context?.getResources() // res는 null이 되고 crash 나지 않습니다.[2]
 
 
 Smart cast

@@ -53,20 +53,24 @@ Delegated Properties
 
 Extension Functions (Utility class?)
 Extension functions allow us to extend the functionality of a class by adding new functions.
-함수 확장은 새로운 함수를 추가하여 클래스의 기능을 확장 할 수있다.
+함수 확장은 새로운 함수를 추가하는 방식으로 클래스의 기능성을 확장 할 수 있습니다.
 
 The class doesn’t have to belongs to us (could it be a third party library) and also without requiring us to inherit the class.
-(서드 파티 라이브러리와 같이) 우리에게 속하지 않거나 상속이 필요하지 않는 클래스들이 있습니다. (상속을 못하는이 아닐까 싶음)
+(서드 파티 라이브러리와 같이) 수정이 불가능하거나 상속이 필요하지 않는 클래스들이 있습니다. (상속을 못하는이 아닐까 싶음)
 
-This is really a super powerful feature! as we will be able to add new functions to existing classes and that’s what we are going to see right now with the ViewGroup class, a great trick that I found in this link by Antonio Leiva which I really encourage you to follow him on Twitter.
-이건 진짜 엄청나게 강력한 기능임. 존재하는 클래스에 새로운 함수를 추가할 수도 있고 앞으로 보게될 ViewGroup 클래스에 사용하는걸 보게 될 것입니다.
+This is really a super powerful feature! as we will be able to add new functions to existing classes and that’s what we are going to see right now with the ViewGroup class, a
+이건 진짜 엄청나게 강력한 기능임. 존재하는 클래스에 새로운 함수를 추가할 수도 있고 ViewGroup 클래스에 사용하는걸 보게 될 것입니다.
+
+great trick that I found in this link by Antonio Leiva which I really encourage you to follow him on Twitter.
 
 
 Also we are going to understand how does it works and how to consume it from Java.
-또한 이게 어떻게 동작하는지 이해하고 자바에서 어떻게 이걸 사용하는지 알게될 것입니다.
+또, 이게 어떻게 동작하는지와 자바에서 이걸 사용하는 방법을 알 수 있을 것입니다.
+
+
 
 As you now ViewGroup is a class from the Android SDK and in order to inflate it we have to do this:
-이제 안드로이드 SDK의 ViewGroup 클래스를 inflate 하기 위해선 다음과 같이 수행 합니다.
+이제 안드로이드 SDK의 ViewGroup 클래스를 inflate 하기 위해선 다음과 같이 했을 것입니다.
 
 inflater.inflate(R.layout.news_fragment, container, false)
 
@@ -77,10 +81,10 @@ But this is not really an intuitive way to do this. This should be something tha
 val view = container?.inflate(R.layout.news_fragment)
 
 It’s like the ViewGroup is able to inflate by itself! awesome trick! but how to do that? Let’s create our first Extention Fucntion:
-이건 마치 ViewGroup이 자기 스스로 inflate를 하는 듯한 멋진 방법입니다. 근데 어떻게 이게 가능할까요? 이제 우리의 첫번째 확장 함수를 만들어봅시다.
+이건 마치 ViewGroup이 자기 스스로 inflate를 하는 듯한 멋진 방법입니다. 그런데 어떻게 이게 가능할까요? 이제 우리의 첫번째 확장 함수를 만들어봅시다.
 
 I created a file called “Extensions.kt” in the package “commons”. Checkout the code to see it.
-"commons"패키지 안에 Extensions.kt"라는 파일을 만들고 다음과 같은 소스를 작성했습니다. 한번 봐보시죠.
+"commons"패키지 안에 "Extensions.kt"라는 파일을 만들고 다음과 같은 소스를 작성했습니다. 한번 봐보시죠.
 And the code is like this:
 
 fun ViewGroup.inflate(layoutId: Int): View {
@@ -91,12 +95,15 @@ fun ViewGroup.inflate(layoutId: Int): View {
 What we are doing here is to add a new method to ViewGroup (see how we add the ViewGroup with a dot before the “inflate” method name) but we are not modifying the ViewGroup class but adding a new function.
 ViewGroup에 새로운 메서드를 추가하는 것을 볼 수 있습니다(  "inflate" 메서드 앞에 점(.)을 찍고 ViewGroup을 함께 적어준 것을 볼 수 있습니다.) ViewGroup을 수정한 것이 아니라 새로운 함수를 추가한 것입니다.
 
-
 This function will be internally a static method but you will be calling it from an instance of a class with the dot-notation, in this case: container.inflate(…) and not ViewGroup.inflate().
-이 함수는 내부적으로 static 메서드이지만 클래스의 인스턴스에서 container.inflate(...) 처럼 .노테이션을 통해 호출될 경우도 있씁니다.
+이 함수는 내부적으로 static 메서드이지만 클래스의 인스턴스에서 container.inflate(...) 처럼 점표기법(.노테이션)을 통해 호출할 수도 있습니다. 이번 경우에는 ViewGroup.inflatE()가 아닌 container.inflate(...) 로 호출 하는 것 처럼요.
 
-This is because the compiler will be creating a Util class for us. If you want to use this Extension Function from Java you will be using it in this way:
-이런 경우 컴파일러는 Util 클래스를 생성합니다.(?) 자바에서 이 확장 함수를 사용하려면 다음과 같은 방법으로 사용합니다.
+This is because the compiler will be creating a Util class for us.
+이것이 가능한 이유는 컴파일러는 Util 클래스를 생성해주기 때문입니다.
+
+If you want to use this Extension Function from Java you will be using it in this way:
+자바에서 이 확장 함수를 사용하려면 다음과 같은 방법으로 사용합니다.
+
 
 // Java
 ExtensionsKt.inflate(container, R.layout.news_fragment);
@@ -112,6 +119,8 @@ container가 null 객체일 수도 있기 때문에 "?" 부호를 붙인걸 기�
 
 
 The name of the Utility class will be the same as the file’s name plus “Kt” suffix or you can override it with an specific annotation:
+유틸리티 클래스의 이름은 파일이름과 같고 뒤에 'Kt' 접미사를 붙이거나 어노테이션을 붙여 override 할 수 있습니다.
+
 
 @file:JvmName("ExtensionsUtils")
 
@@ -122,34 +131,74 @@ import ...
 fun ViewGroup.inflate(layoutId: Int): View {
     ...
 }
+
+
 // Use it in this way in Java:
 ExtensionsUtils.inflate(container, R.layout.news_fragment);
+
 More details about interoperability you can find it here.
 Coming back to our function:
+
+
 fun ViewGroup.inflate(layoutId: Int): View {
     return LayoutInflater.from(context).inflate(layoutId, this, false)
 }
+
+
 Inside the code block it’s like you are writing code as it is a real new method of the class (like a regular method) that’s why you can access to the instance of the class with the “this” keyword and access to the local variable “context”.
+코드블럭 내에서 해당 클래스의 진짜 새로운 메서드를 추가하듯이 코드를 작성합니다. 이것이 클래스의 인스턴스에서 'this' keyword와 지역 변수인 "context"를 엑세스 할 수 있는 이유입니다.
+
 Great! This is our first Extension Function and we know a lot more about this concept. Our code was updated in this way:
+그레이트! 이것이 우리의 첫번째 확장 함수이고 이 컨셉에 대해 더 많은걸 알았습니다. 우리의 코드는 다음과 같이 업데이트 되었을 것입니다.
+
+
 // old code:
 val view = inflater.inflate(R.layout.news_fragment, container, false)
+
 // replaced with:
 val view = container?.inflate(R.layout.news_fragment)
+
 But here we are losing our attachToRoot parameter that we have in the inflater inflate method. Let’s add this to our code.
+하지만 inflater의 inflate메서드에서 attachToRoot 파라매터가 사라진걸 볼 수 있는데요, 이걸 다시 추가해보도록 합시다.
+
 Default Values in Parameters
-In Kotlin you are able to define default values in the parameters of a function (also in a class constructor but we are not going to see this now). So we are going to add a default value for the attachToRoot parameter:
+In Kotlin you are able to define default values in the parameters of a function (also in a class constructor but we are not going to see this now).
+코틀린에서는 함수의 파라메터에 default 값을 정의해줄 수 있습니다. (클래스의 생성자에서도 됩니다만 당장은 살펴보지 않겠습니다.)
+
+So we are going to add a default value for the attachToRoot parameter:
+attachToRoot 파라메터에 default 값을 추가해봅시다.
+
 fun ViewGroup.inflate(layoutId: Int, attachToRoot: Boolean = false): View {
     return LayoutInflater.from(context).inflate(layoutId, this, attachToRoot)
 }
+
 In case you don’t specify the attachToRoot parameter it will take the default value, so you can call it in different ways:
+attachToRoot 파라매터로 값을 넘기지 않는 경우 default 값이 이용될 것이고 따라서 다음과 같은 방법으로 호출할 수 있습니다.
+
 container?.inflate(R.layout.news_fragment) // default: false
 container?.inflate(R.layout.news_fragment, true)
+
+
 Commit
+
 Here you can see the commit of all this changes:
 https://github.com/juanchosaravia/KedditBySteps/commit/f52a80c6d7ec00ba58a44c14ccc57a5d79ad03ba
+
+
+
 Android Extensions
-This is the Kotlin alternative for the famous “findViewById()” method (or other third party libraries to bind properties to an element of a view). Android Extensions add some convenient extension properties which allow us to access the elements of a view as it’s a property inside our Activity or Fragment with the proper view’s type already set.
-Before to start changing our code let’s configure our project to enable Android Extensions. Modify the build.gradle file from our app module, apply the kotlin-android-extensions plugin and re-sync with gradle:
+This is the Kotlin alternative for the famous “findViewById()” method (or other third party libraries to bind properties to an element of a view).
+이 것은 유명한 "findViewById" 메서드의 코틀린에서의 대안입니다. (혹은 다른 서드파티 라이브러리를 view의 element의 properties에 bind하기 위한 방법입니다.)
+
+Android Extensions add some convenient extension properties which allow us to access the elements of a view as it’s a property inside our Activity or Fragment with the proper view’s type already set.
+ 안드로이드 익스텐션은 몇가지 convenient extension을 추가하여 이미 설정된 적절한 뷰의 타입이 있는 액티비티나 프래그먼트의 뷰의 element에 access를 허용하게 합니다. (?)
+
+Before to start changing our code let’s configure our project to enable Android Extensions.
+코드 변경을 시작하기 전에 우리 프로젝트에 안드로이드 익스텐션을 활성화 시킵시다.
+
+Modify the build.gradle file from our app module, apply the kotlin-android-extensions plugin and re-sync with gradle:
+우리 앱모듈의 build.gradle 파일을 수정하여 kotlin-android-extensions 플러그인을 적용한 뒤 re-sync를 합시다.
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -165,11 +214,23 @@ NewsFragment layout:
         android:layout_height="match_parent" />
 
 </RelativeLayout>
+
+
 NewsFragment class:
 We will be able to access the news_list RecyclerView from our NewsFragment fragment. We are going to include an import to the synthetic properties generated by the plugin:
+우리는 앞으로 NewsFragment 프래그먼트에 있는 news_list 리사이클러뷰를 엑세스하도록 할 것입니다.
+
 import kotlinx.android.synthetic.main.news_fragment.*
-In this way you have access to all the elements in the layout that you choose in this import and use it directly from your code. In order to make sure the layout was already inflated, we are going to move our newsList assignment from onCreateView() method to the onActivityCreated() where we are sure that the view (news_fragment) was already inflated.
+
+In this way you have access to all the elements in the layout that you choose in this import and use it directly from your code.
+이 방법으로 access하기를 원하는 모든 엘레먼트가 포함된 layout을 임포트하고 코드에서 직접 사용할 수 있습니다.
+
+In order to make sure the layout was already inflated, we are going to move our newsList assignment from onCreateView() method to the onActivityCreated() where we are sure that the view (news_fragment) was already inflated.
+Layout이 이미 inflated 되었다고 확신하기 때문에 onCreateView() 메서드 안에 있는 newsList assignment를 onActivitCreated()로 옮길 것 입니다.
+
+
 We are going to be able to access news_list directly now:
+이제 news_list를 직접적으로 access할 수 있습니다.
 // old code:
 newsList = view?.findViewById(R.id.news_list) as RecyclerView?
 newsList?.setHasFixedSize(true)
@@ -177,38 +238,76 @@ newsList?.layoutManager = LinearLayoutManager(context)
 // new code:
 news_list.setHasFixedSize(true)
 news_list.layoutManager = LinearLayoutManager(context)
-Notice that we use news_lists and it’s a non-nullable object so we can use it in our code without the “?” question mark. This could be a problem if you run this code in another part of the Activity lifecycle and the view was not previously inflated, this will throw an exception at runtime.
+
+Notice that we use news_lists and it’s a non-nullable object so we can use it in our code without the “?” question mark.
+news_lists를 사용하는 것과 코드에서 "?" 마크 없이 사용하는 non-nullable 객체임을 주의깊게 봐주세요.
+
+This could be a problem if you run this code in another part of the Activity lifecycle and the view was not previously inflated, this will throw an exception at runtime.
+만약 Activity lifecycle의 다른 부분에서 이 코드가 돌아가거나 뷰가 inflated 되지 않았다면 문제가 될 것이며 이건 런타임 시에 예외를 발생시킬 것입니다.
+
 Well our code is getting better! but wait! What if we want to have news_list locally to perform some other actions like setting the adapter?
+우리 코드가 더 좋아졌네요, 하지만 잠시만요, news_list가 어뎁터를 설정하는 것과같은 다른 액션을 수행하려면 어떻게 해야할까요?
+
 For sure, you can still use the extended property news_list but for purpose of this tutorial we are going to see Delegated Properties which will help us to do so.
+그걸 하기 위해서 다음의 Delegated Properties를
+
 Commit
 https://github.com/juanchosaravia/KedditBySteps/commit/1afe0a3d343eb2353c97af4c2d1ac03def77a692
+
+
 Delegated Properties
-Delegated Properties are an excellent way to reuse common behavior that you may recurrently need for a property. In Kotlin you already have some common delegated properties defined in the language (also you can create your own). Here we are going to use this existing delegated property:
+Delegated Properties are an excellent way to reuse common behavior that you may recurrently need for a property.
+Delegated Properties는 주기적으로 필요한 property와 같은 공통 동작을 재사용하기 위한 훌륭한 방법 입니다.
+
+In Kotlin you already have some common delegated properties defined in the language (also you can create your own). Here we are going to use this existing delegated property:
+코틀린에서는 이미 몇가지 공통 delegated properties들을 언어 내부적으로 정의해놓았습니다. (물론 직접 만들 수도 있습니다.) 이미 존재하는 delegated property를 사용하는 방법을 보도록 합시다.
+
 Lazy properties: The value gets computed only upon first access.
+Lazy properties: 값은 첫번째 access 때 계산 됩니다.
+
 This topic is really a world so here we are going to see just the lazy property and in other parts we are going to continue introducing another concepts about Delegated Properties.
+이 주제는 정말 세계적으로
+
 Lazy
-This is a great delegated property that we are going to use to avoid initializing our newsList as a nullable object. With Lazy we are going to create it as a non-nullable property and will be executed just when you use it and just the first time.
+This is a great delegated property that we are going to use to avoid initializing our newsList as a nullable object.
+Lazy는 great한 delegated property로써 우리의 newsList와 같이 nullable 객체를 초기화를 피하기 위해 사용합니다.
+
+With Lazy we are going to create it as a non-nullable property and will be executed just when you use it and just the first time.
+Lazy를 사용하면  그걸 처음으로 사용할 때 non-nullable property를 만들고 실행될 것입니다.
+
 Lazy will be initializing newsList with the value that you execute in the code block:
+Lazy를 이용해 newsList가 value와 함께 초기화되고 실행되는걸 다음의 코드 블럭에서 볼 수 있습니다.
+
 private val newsList: RecyclerView by lazy {
     view?.findViewById(R.id.news_list) as RecyclerView
 }
+
 Here we can use the news_list synthetic property to avoid using findViewById and as the type can be inferred by the context we can also remove the property type:
+다음 코드 블럭을 보면 findViewById를 사용하지 않고 news_list라는 '인조' property를 사용하는걸 볼 수 있고 이것의 타입은 context에서 추정되기 때문에 property type를 제거할 수 있습니다.
+
 private val newsList by lazy {
     news_list
 }
+
 The lazy block will be executed when we use it, in this case in the onActivityCreated() method:
+Lazy 블럭은 이걸 사용할 떄 실행됩니다. onActivityCreated() 메서드에서 이 예를 볼 수 있습니다.
+
 override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
 
     newsList.setHasFixedSize(true) // <-- Lazy executed!
     newsList.layoutManager = LinearLayoutManager(context)
 }
+
 Also we could move this initialization code inside the onActivityCreated into the lazy block in this way:
+
+
 private val newsList by lazy {
     news_list.setHasFixedSize(true)
     news_list.layoutManager = LinearLayoutManager(context)
     news_list // this will work as the return type
 }
+
 But as we are not calling the newsList in any place, the RecyclerView will raise an Exception as it doesn’t have a layout manager set. So we are going to leave it as we have it previously but we are going to change it in this way later.
 Commit
 https://github.com/juanchosaravia/KedditBySteps/commit/ce13b28ebd0e3ab41c4e696dd2d3b455f04a839f
