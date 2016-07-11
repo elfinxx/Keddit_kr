@@ -20,7 +20,7 @@ Let’s create our NewsFragment.kt file, it will be responsible to show the late
 NewsFragment.kt 파일을 만들도록 합시다. 이 fragment는 Reddit API를 이용해 최신 뉴스를 받아와 보여주는 역할을 하며 뉴스를 보여주기 위해 RecyclerView를 이용할 것입니다.
 
 In Java we would normally create a private field to store the RecyclerView locally and assign it when we are inflating the view.
-자바에서는 보통 private field에 RecyclerView를 locally 저장하며 view를 inflating 할 때 할당합니다.
+자바에서는 보통 지역 변수로 private field에 RecyclerView를 저장하며 view를 inflating 할 때 할당합니다.
 
 Trying to do the same in Kotlin, it’ll be like this:
 같은 작업을 코틀린에서 해봅시다. 일단 이런 모양일 것입니다.
@@ -42,7 +42,7 @@ This is a valid code and works but! it’s not a “Kotlin-ized” code so we ar
 위의 코드는 올바른 코드이긴 합니다만 "코틀린스러운" 코드는 아니기 때문에 좀 더 좋게 바꿔보겠습니다.
 
 With this small piece of code we are going to incorporate some new concepts about the language:
-
+이 작은 코드 조각으로 코틀린의 새로운 컨셉들을 incorporate 해보겠습니다.
 
 Extension Functions
 Default Values in Parameters
@@ -53,7 +53,7 @@ Delegated Properties
 
 Extension Functions (Utility class?)
 Extension functions allow us to extend the functionality of a class by adding new functions.
-함수 확장은 새로운 함수를 추가하는 방식으로 클래스의 기능성을 확장 할 수 있습니다.
+함수 확장이란 새로운 함수를 추가하는 방식으로 클래스의 기능성을 확장 할 수 있습니다.
 
 The class doesn’t have to belongs to us (could it be a third party library) and also without requiring us to inherit the class.
 (서드 파티 라이브러리와 같이) 수정이 불가능하거나 상속이 필요하지 않는 클래스들이 있습니다. (상속을 못하는이 아닐까 싶음)
@@ -70,13 +70,13 @@ Also we are going to understand how does it works and how to consume it from Jav
 
 
 As you now ViewGroup is a class from the Android SDK and in order to inflate it we have to do this:
-이제 안드로이드 SDK의 ViewGroup 클래스를 inflate 하기 위해선 다음과 같이 했을 것입니다.
+안드로이드 SDK에 포함되어있는 ViewGroup 클래스를 inflate 하기 위해선 다음과 같이 했을 것입니다.
 
 inflater.inflate(R.layout.news_fragment, container, false)
 
 
 But this is not really an intuitive way to do this. This should be something that the ViewGroup should be able to do like this:
-그러나 이건 작업을 수행하는 직관적인 방법이 아닙니다. ViewGroup에서 다음과 같이 무언가를 할 수 있어야 합니다.
+그러나 이건 작업을 수행하는 직관적인 방법이 아닙니다. ViewGroup은 다음과 같이 무언가를 할 수 있어야 합니다.
 
 val view = container?.inflate(R.layout.news_fragment)
 
@@ -84,7 +84,7 @@ It’s like the ViewGroup is able to inflate by itself! awesome trick! but how t
 이건 마치 ViewGroup이 자기 스스로 inflate를 하는 듯한 멋진 방법입니다. 그런데 어떻게 이게 가능할까요? 이제 우리의 첫번째 확장 함수를 만들어봅시다.
 
 I created a file called “Extensions.kt” in the package “commons”. Checkout the code to see it.
-"commons"패키지 안에 "Extensions.kt"라는 파일을 만들고 다음과 같은 소스를 작성했습니다. 한번 봐보시죠.
+"commons"패키지 안에 "Extensions.kt"라는 파일을 만들고 다음과 같은 소스를 작성했습니다. 한번 봐볼까요.
 And the code is like this:
 
 fun ViewGroup.inflate(layoutId: Int): View {
@@ -93,7 +93,7 @@ fun ViewGroup.inflate(layoutId: Int): View {
 
 
 What we are doing here is to add a new method to ViewGroup (see how we add the ViewGroup with a dot before the “inflate” method name) but we are not modifying the ViewGroup class but adding a new function.
-ViewGroup에 새로운 메서드를 추가하는 것을 볼 수 있습니다(  "inflate" 메서드 앞에 점(.)을 찍고 ViewGroup을 함께 적어준 것을 볼 수 있습니다.) ViewGroup을 수정한 것이 아니라 새로운 함수를 추가한 것입니다.
+ViewGroup에 새로운 메서드를 추가한 것을 볼 수 있습니다(  "inflate" 메서드 앞에 점(.)을 찍고 ViewGroup을 함께 적어준 것을 볼 수 있습니다.) ViewGroup을 수정한 것이 아니라 새로운 함수를 추가한 것입니다.
 
 This function will be internally a static method but you will be calling it from an instance of a class with the dot-notation, in this case: container.inflate(…) and not ViewGroup.inflate().
 이 함수는 내부적으로 static 메서드이지만 클래스의 인스턴스에서 container.inflate(...) 처럼 점표기법(.노테이션)을 통해 호출할 수도 있습니다. 이번 경우에는 ViewGroup.inflatE()가 아닌 container.inflate(...) 로 호출 하는 것 처럼요.
