@@ -191,8 +191,8 @@ Android Extensions
 This is the Kotlin alternative for the famous “findViewById()” method (or other third party libraries to bind properties to an element of a view).
 이 것은 유명한 "findViewById" 메서드의 코틀린에서의 대안입니다. (혹은 다른 서드파티 라이브러리를 view의 element의 properties에 bind하기 위한 방법입니다.)
 
-Android Extensions add some convenient extension properties which allow us to access the elements of a view as it’s a property inside our Activity or Fragment with the proper view’s type already set.
-안드로이드 익스텐션은 몇몇 convenient extension을 추가하여 이미 설정된 적절한 뷰의 타입이 있는 액티비티나 프래그먼트에서 뷰의 element에 access를 허용할 수 있게 합니다.
+Android Extensions add some convenient extension properties which allow us to access the elements of a view   as it’s a property inside our Activity or Fragment with the proper view’s type already set.
+안드로이드 익스텐션은 몇몇 convenient extension properties를 추가하여 적당한 뷰의 타입이 이미 설정된 프래그먼트나 액티비티 내부의 property 처럼 뷰의 element에 접근할 수 있도록 해줍니다.
 
 Before to start changing our code let’s configure our project to enable Android Extensions.
 코드 변경을 시작하기 전에 우리 프로젝트에 안드로이드 익스텐션을 활성화 시킵시다.
@@ -251,10 +251,10 @@ news_list.layoutManager = LinearLayoutManager(context)
 
 
 Notice that we use news_lists and it’s a non-nullable object so we can use it in our code without the “?” question mark.
-news_lists를 사용하는 것과 코드에서 "?" 마크 없이 사용하는 non-nullable 객체임을 주의깊게 봐주세요.
+news_lists를 사용하는 부분과 news_lists가 non-nullable 객체이기 때문에 코드에서 "?" 마크 없이 사용할 수 있다는 점을 주의깊게 봐주세요.
 
 This could be a problem if you run this code in another part of the Activity lifecycle and the view was not previously inflated, this will throw an exception at runtime.
-만약 Activity lifecycle의 다른 부분에서 이 코드가 수행되거나 뷰가 inflated 되지 않았다면 문제가 될 것이며 이건 런타임 시에 예외를 발생시킬 것입니다.
+만약 Activity lifecycle의 다른 부분에서 이 코드가 수행되거나 뷰가 먼저 inflated 되지 않았다면 문제가 될 것이며 런타임 시에 예외를 발생시킬 것입니다.
 
 Well our code is getting better! but wait! What if we want to have news_list locally to perform some other actions like setting the adapter?
 우리 코드가 더 좋아졌네요, 하지만 잠시만요, news_list를 사용하는 것처럼 어댑터를 설정하는 등의 다른 액션들을 수행하려면 어떻게 해야할까요?
@@ -281,7 +281,7 @@ This topic is really a world so here we are going to see just the lazy property 
 
 Lazy
 This is a great delegated property that  we are going to use to avoid initializing our newsList as a nullable object.
-Lazy는 great한 delegated property로써 우리의 newsList와 같이 nullable 객체로 쓰이는걸 피하기 위해 사용합니다.
+Lazy는 great한 delegated property로써 우리의 newsList처럼 nullable 객체로 초기화되는 것을 피하기 위해 사용합니다.
 
 With Lazy we are going to create it as a non-nullable property and will be executed just when you use it and just the first time.
 Lazy를 사용하면  그걸 처음으로 사용할 때 non-nullable property를 만들고 실행될 것입니다.
@@ -301,7 +301,7 @@ private val newsList by lazy {
 }
 
 The lazy block will be executed when we use it, in this case in the onActivityCreated() method:
-Lazy 블럭은 이걸 사용할 떄 실행됩니다. onActivityCreated() 메서드에서 이 예를 볼 수 있습니다.
+Lazy 블럭은 이걸 사용할 때 실행되고 onActivityCreated() 메서드에서 그 예를 볼 수 있습니다.
 
 override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
@@ -311,7 +311,7 @@ override fun onActivityCreated(savedInstanceState: Bundle?) {
 }
 
 Also we could move this initialization code inside the onActivityCreated into the lazy block in this way:
-
+또한 onActivityCreated 안에 있는 newList 초기화 코드를 다음과 같이 lazy block 안에 넣을 수 있습니다.
 
 private val newsList by lazy {
     news_list.setHasFixedSize(true)
@@ -319,7 +319,12 @@ private val newsList by lazy {
     news_list // this will work as the return type
 }
 
-But as we are not calling the newsList in any place, the RecyclerView will raise an Exception as it doesn’t have a layout manager set. So we are going to leave it as we have it previously but we are going to change it in this way later.
+But as we are not calling the newsList in any place, the RecyclerView will raise an Exception as it doesn’t have a layout manager set.
+하지만 newsList를 어디서나 부를 수 있는 것은 아닙니다. RecyclerView는 layout manager가 설정되지 않은 상태라면 예외가 발생할 것입니다.
+
+So we are going to leave it as we have it previously but we are going to change it in this way later.
+일단 이건 전에 했다고 치고 바꾸는 방법은 나중에 알아보도록 하겠습니다.
+
 Commit
 https://github.com/juanchosaravia/KedditBySteps/commit/ce13b28ebd0e3ab41c4e696dd2d3b455f04a839f
 Conclusion

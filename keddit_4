@@ -20,7 +20,7 @@ List & Lambdas (introduction)
 
 
 Each topic will be inside the context of creating our NewsAdapter adapter and using the Delegate Adapter pattern.
-각 주제는 이번에 만들 NewsAdapter 어뎁터를 생성하고 델리게이트 어댑터 패턴을 사용할 때 녹아있을 것입니다.
+각 주제는 이번에 만들 NewsAdapter 어뎁터를 생성하고 델리게이트 어댑터 패턴을 사용할 때 사용될 것입니다.
 
 So let’s start creating our adapter and show something in the screen!
 자 이제 어뎁터 생성과 화면에 뭔가 보여줄 작업을 시작해봅시다.
@@ -31,22 +31,19 @@ Creating the NewsAdapter
 We are going to create a new adapter for our RecyclerView.
 리사이클러뷰를 위한 새로운 어댑터를 만들 것입니다.
 In this case, we are going to do it with a pattern called “Delegate Adapter”, we use it in our company and it was inspired by this article by Hannes Dorfmann.
-이 패턴은 Hannes Dorfmann이 작성한 이 글에 영감을 받았고 우리 회사에서 사용하고 있는  델리게이트 어댑터라 불리는 패턴을 사용할 것이고
+Hannes Dorfmann이 작성한 '이 글'에서 영감을 받은 델리게이트 어댑터라 부르고 있는 우리 회사에서 사용하고 있는 패턴을 이용할 것입니다.
 
 Our Adapter will have a list of delegated adapters, those are going to be in charge of knowing how to inflate and return a specific view in the RecyclerView.
-우리가 만들 어댑터는 델리게이트 어뎁터들의 목록들을 갖고 있을 것이고 어떻게 inflate 하는지 알고 리사이클러뷰의 특정 뷰를 리턴 해주는 역할을 합니다.
+우리가 만들 어댑터는 어떻게 inflate 하는지 알고 있는 델리게이트 어뎁터들의 목록들을 갖고 있고 리사이클러뷰의 특정 뷰를 리턴 해주는 역할을 합니다.
 
-The general idea behind of this is to receive a list of ViewType items
-
-and according to this ViewType get the corresponding Delegate Adapter to inflate and populate the view for this item.
-이 보편적인 아이디어의 ViewType 아이템들의 리스트를 받고 이 ViewType에 따라 이 아이템의 뷰를 펼치고 inflate 하는 관련된 델리게이트 어뎁터를 얻기 위한
+The general idea behind of this is to receive a list of ViewType items and according to this ViewType get the corresponding Delegate Adapter to inflate and populate the view for this item.
+이 보편적인 아이디어 배경에는 ViewType 아이템들의 리스트를 받고 이 ViewType에 따라 이 아이템의 뷰를 펼치고 inflate 하는 관련된 델리게이트 어뎁터를 얻기 위한
 
 The item will be used to be passed as argument to the delegated adapter so the item can be used to extract specific data for this View.
-The main idea behind of this is to match items (ViewType objects) with specific adapters (Delegated Adapters) like you can see in this image:
-이 아이템은 델리게이트 어뎁터로 argument를 넘기는데 사용될 것이며 이 아이템은 이 뷰의 특정 데이터를 extract하는데 사용될 것입니다. 이
+이 아이템은 델리게이트 어뎁터로 argument를 넘기는데 사용될 것이며 이 아이템은 이 뷰의 특정 데이터를 끄집어 내는데 사용될 것입니다.
 
 The main idea behind of this is to match items (ViewType objects) with specific adapters (Delegated Adapters) like you can see in this image:
-item에 맞는 특정 어댑터를 짝지어 주는 것이 주된 아이디어 입니다. 다음 이미지를 봅시다.
+item들(ViewType 객체들)에 맞는 특정 어댑터들을 짝지어 주는 것이 주된 아이디어 입니다. 다음 이미지를 봅시다.
 
 Thanks to the ViewType, we know what delegated adapter we need to use to create the View for this item.
 이 아이템을 위한 뷰를 생성하는데 어떤 델리게이트 어탭터가 필요한지를 ViewType 덕분에 알 수 있습니다.
