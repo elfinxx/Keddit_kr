@@ -70,8 +70,7 @@ Is an interface that we will use for the items that we are going to show in the 
 ViewType은 우리가 RecyclerView 에 표시 하고자하는 항목을 사용 하는 인터페이스입니다.
 
 Each item must implement this interface so we can ask to each item the ViewType type (int value) and search for the corresponding delegated adapter to this type:
-각 아이템은 반드시 구현되어야 하고
-이 인터페이스에 ViewType 타입(int value)이 뭔지 물어볼 수 있고 ()이걸 이용해) 이 타입에 관련된 델리게이트 어댑터가 뭔지 찾을 수 있습니다.
+각 아이템이 구현되면 이 인터페이스에 ViewType 타입(int value)이 뭔지 물어볼 수 있고 이 타입에 연관된 델리게이트 어댑터가 뭔지 찾을 수 있습니다.
 
 interface ViewType {
     fun getViewType(): Int
@@ -84,10 +83,10 @@ private var items: ArrayList<ViewType>
 
 
 Here we are going to store the news and the loading item.
-이제 뉴스를 저장하고 아이템을 로딩하는걸 해보도록 합시다.
+이제 뉴스를 저장하고 아이템을 로딩되도록 해보도록 합시다.
 
 Our news model will extend from ViewType and we are going to create a new item locally for the Loading item.
-우리의 뉴스 모델은 ViewType을 확장하고 로딩 아이템에 대해 새로운 locally item을 만들 것입니다.
+우리의 뉴스 모델은 ViewType으로부터 extend 되고 로딩 아이템에 대해 새로운 locally item을 만들 것입니다.
 
 Let’s add a Loader to our recycler view
 우리의 리사이클러뷰에 로더를 추가해봅시다.
@@ -95,10 +94,10 @@ Let’s add a Loader to our recycler view
 We need 3 things:
 3가지가 필요합니다.
 The ViewType Type: This will be an integer value (like an ID) to match our ViewType with the delegated adapter (AdapterConstants.LOADING).
-ViewType 타입: int value로  된 (ID처럼) ViewType과 델리게이트 어댑터를 짝지어주는데 사용됩니다. (AdapterConstants.LOADING)
+ViewType 타입: int value로 된 (ID처럼) ViewType과 델리게이트 어댑터(AdapterConstants.LOADING)를 짝 지어주는데 사용됩니다. 
 
 The ViewType Item: This will be an object that implements the ViewType interface and return the ViewType Type (ID).
-ViewType item: ViewType interface을 implement하고 TypeType의 타입을 돌려주는 객체입니다.
+ViewType item: ViewType interface을 implement하고 TypeType의 타입(ID)을 돌려주는 객체입니다.
 
 This will allow us to insert this item to the items list and tell the adapter to render this view.
 새로운 아이템을 아이템 리스트에 넣을 수 있고 이 뷰를 그리는데 필요한 어뎁터를 알려주는 역할을 합니다.
@@ -128,7 +127,7 @@ As you can see we are creating our Delegate Adapter by extending another interfa
 만든 델리게이트 어댑터를 보면 ViewTypeDelegateAdapter라 불리는 다른 interface를 extend한 것을 알 수 있을 껍니다.
 
 This interface allow us to have a generic list of delegate adapters and invoke those methods without requiring us to have in our NewsAdapter to know nothing specific of the delegated adapters implementation.
-이 인터페이스는 델리게이트 어뎁터의 generic 목록을 갖고 있도록 하고 메서드 호출 시 우리의 NewsAdapter가 델리게이트 어뎁터의 구현을 알지 못해도
+이 인터페이스는 델리게이트 어뎁터의 generic 목록을 갖고 있고 우리의 NewsAdapter가 델리게이트 어뎁터의 구현을 알지 못해도 메서드 호출을 할 수 있게 합니다. 
 
 One method to create the ViewHolder and another to bind it.
 한 메서드는 ViewHolder를 만들고 다른 것과 bind 되도록 합니다.
@@ -148,18 +147,20 @@ init {
 
 Init Constructor
 init is the reserved word in Kotlin for a constructor of a class (in this case NewsAdapter), here we are going to initialize this map adding every ViewType type with the corresponding delegated adapter.
-init은 클래스의 생성자로 코틀린에서 예약어로 사용됩니다. ViewType과 델리게이트 어뎁터를 추가할 때마다 초기화하여 사용합니다 (?)
+init은 클래스의 생성자로 코틀린에서 예약어로 사용됩니다. 여기서는 Map을 초기화하여 매 ViewType과 이와 연관된 델리게이트 어뎁터를 추가하여 사용합니다.
 
 In this case:
+이번 경우에는
 AdapterConstants.LOADING > LoadingDelegateAdapter()
 
 In order to create a new object in Kotlin you don’t need to use the “new” keyword.
 코틀린에서는 새로운 객체를 생성할 때 'new' 키워드를 사용할 필요 없습니다.
 
+
 Loading ViewType Item
 
 Let’s create our Loading item, this item will help us to render the Loading view in the position that we insert it in the items list:
-새로운 로딩 아이템을 만들어 봅시다. 이 아이템은 아이ㅔㅁ 리스트에  로딩뷰를 랜더할
+이제 로딩 아이템을 만들어 봅시다. 이 아이템은 아이템 리스트에 새로운 아이템이 들어갈 자리에서 로딩뷰가 랜더링 되도록 할 것입니다.
 
 private val loadingItem = object : ViewType {
     override fun getViewType() : Int {
@@ -176,37 +177,60 @@ init {
     items.add(loadingItem)
 }
 
+
 Object Expressions
 
 In Kotlin you have something called “Object expressions”, which works in a similar way as anonymous inner classes in Java, and allows you to create an object without explicitly declaring a new subclass for it.
-코틀린에서는 Object expressions라 불리는 자바에서 익명 내부 클래스와 비슷한 방법을 하는 것이 있습니다. 이 방법은 상속 객체를 만들 때 객체를 명시적으로 선언하지 않고 할 수 있도록 합니다.
+코틀린에서는 Object expressions라 불리는 자바에서 익명 내부 클래스와 비슷한 동작을 하는 것이 있습니다. 이 방법은 새로운 객체를 만들 때 새로운 subclass를 명시적으로 선언하지 않고 만들 수 있도록 합니다.
 
 In this case we are using it to define our loadingItem without creating a new class.
-이번 경우에는 우리의 로딩아이템을 선언할 때 새로운 클래스 선언 없이 사용할 때 사용합니다.
+이번 경우에는 새로운 loadingItem을 정의할 때 새로운 클래스 선언 없이 사용할 때 사용합니다.
 
 The syntax is really intuitive and as you can see we are extending from ViewType and implementing the required interface.
-이 구문은 정말 직관적이고 필요한 interface를 구현하고 viewType을 extend하는걸 보면 알 수 있습니다.
+Interface를 구현하고 ViewType을 extend하는걸 보면 이 구문은 정말 직관적입니다.
 
 
 Single Expressions
 The getViewType() method has only a single expression function inside the body. In Kotlin we can take advantage of this and convert this method:
-getViewType메서드를 보면 함수 몸체가 한줄 인걸 볼 수 있습니다. 이걸 코틀린에서
+getViewType메서드를 보면 함수 몸체가 한줄 인걸 볼 수 있습니다. 이건 다음의 문장을 코틀린에서는 한문장으로 바꿔 쓸 수 있습니다.
 
 override fun getViewType() : Int {
     return AdapterConstants.LOADING
 }
+
 To this:
+
 override fun getViewType() = AdapterConstants.LOADING
-It’s like we are assigning the value AdapterConstants.LOADING to a function. This is a short way to do the same and it’s really more concise. Also you don’t have to specify the return value type as it can be inferred by the context. So this is how it looks now:
+
+
+It’s like we are assigning the value AdapterConstants.LOADING to a function. 
+이건 마치 AdapterConstants.LOADING 변수를 함수에 할당하는 것 같은데요.
+
+This is a short way to do the same and it’s really more concise. 
+같은 작업을 수행하는 더 간단한 방법이며 훨씬 더 명료합니다. 
+
+Also you don’t have to specify the return value type as it can be inferred by the context. So this is how it looks now:
+또한 리턴 타입을 context에서 유추하기 때문에 따로 지정해줄 필요가 없습니다. 그래서 이런 모습이 나오게 되는 것입니다. 
+
 private val loadingItem = object : ViewType {
     override fun getViewType() = AdapterConstants.LOADING
 }
+
+
+
 Commit
 All this code can be found in this commit:
 https://github.com/juanchosaravia/KedditBySteps/commit/ecc2546b5a0001149f9fe0ca3295d31ecd9ac542
+
 As the concept of Delegate Adapters was explained, I’m not going to continue explaining every detail but to focus on Kotlin concepts in the rest of the tutorial.
+Delegate Adapters의 컨셉에서 이야기 했지만 이 튜토리얼의 나머지 부분에서 코틀린의 개념에 대해 중점을 맞추지 모든 자세한 부분을 설명하진 않을 것입니다.  
+
+
 News Item with Data Classes
+
 Before creating our News delegate adapter and configure the NewsAdapter to receive a list of news, we need our UI object to represent each news. In Java we would normally create a class like this:
+새로운 뉴스 delegate adapter를 만들고 NewsAdapter를 news 리스트를 받도록 설정하기 전에 각 news를 보여줄 UI 객체가 필요합니다. 자바에선 보통 다음과 같은 클래스를 만들었습니다. 
+
 public class RedditNewsItem {
 
     private String author;
@@ -233,16 +257,36 @@ public class RedditNewsItem {
         this.title = title;
     }
 }
+
 Again, Kotlin has come to help us with a new class type called “data class” which brings you a lot of benefits and for the same example it looks like this:
+다시말하지만 코틀린은 "data class"라고 불리는 새로운 클래스를 갖고 있고 이걸 이용해서 많은 장점을 얻을 수 있습니다. 같은 동작을 코틀린에선 다음의 예제로 수행 가능합니다.
+
 data class RedditNewsItem(var author: String, var title: String)
-With this simple line you are doing the same as the previous Java code, it means that author and title has their own getters and setters and it requires a constructor with this two elements. This is just AMAZING! but wait! you still receive more benefits if you take this data class, you receive for free for this class:
+
+With this simple line you are doing the same as the previous Java code, it means that author and title has their own getters and setters and it requires a constructor with this two elements. 
+간단히 1줄로 전의 자바 코드와 같이 author와 title은 getter와 setter를 갖고 생성자는 두개의 elements를 필요로 하는 동작을 할 수 있습니다.
+
+This is just AMAZING! but wait! you still receive more benefits if you take this data class, you receive for free for this class:
 equals/hashCode pair.
+이건 정말 놀라운데요 하지만 잠시만요! 이 data class를 사용함으로써 더 많은 장점을 누릴 수 있습니다.
+
+- equals/hashCode pair.
+
 toString() with all the properties included.
-copy() method to make easily a copy of your object.
+- 포함된 모든 property에 대해 toString()
+
+- copy() method to make easily a copy of your object.
+- 객체의 쉬운 복사를 위한 copy() 메서드
+
 and other useful methods that we are not going to see here but you can see more in the official page.
+와 다른 유용한 메서드들은 지면이 부족하여 생략하지만 다음의 공식 페이지에서 볼 수 있습니다.
+
 Commit: Creating Data Class
 https://github.com/juanchosaravia/KedditBySteps/commit/3c200af22879e3ec16aaa963ca38ec7e97659971
+
 Also we need to make our class to extend ViewType so it can be included in the NewsAdapter list as another item, in this case as a News item:
+또한 우리가 만드는 class들이 ViewType을 extend 하도록 해서  
+
 https://github.com/juanchosaravia/KedditBySteps/commit/8b7842c0e2dd9e6496ed55b927183344de4ad771
 Creating NewsDelegateAdapter
 Now that we have our News item created, we need our delegate adapter which will be in charge of creating the view. Here you have a preview of what we need:
