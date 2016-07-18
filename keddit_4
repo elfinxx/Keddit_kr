@@ -285,22 +285,47 @@ Commit: Creating Data Class
 https://github.com/juanchosaravia/KedditBySteps/commit/3c200af22879e3ec16aaa963ca38ec7e97659971
 
 Also we need to make our class to extend ViewType so it can be included in the NewsAdapter list as another item, in this case as a News item:
-또한 우리가 만드는 class들이 ViewType을 extend 하도록 해서  
+또한 News 아이템과 같은 다른 아이템이 NewsAdapter 목록에 포함될 수 있도록 우리가 만드는 class들이 ViewType을 extend 해야 합니다.    
 
 https://github.com/juanchosaravia/KedditBySteps/commit/8b7842c0e2dd9e6496ed55b927183344de4ad771
+
+
 Creating NewsDelegateAdapter
-Now that we have our News item created, we need our delegate adapter which will be in charge of creating the view. Here you have a preview of what we need:
+
+Now that we have our News item created, we need our delegate adapter which will be in charge of creating the view.
+이제 우리의 News 아이템이 생성되었으니 우리의 delegate adapter가 view를 만들 수 있도록 해야 합니다.
+Here you have a preview of what we need:
+필요한 화면을 미리 보면 다음과 같습니다.
 
 Preview of just one news
+
+
 So we need to:
+따라서 우리에게 필요한건:
+
 Show some texts like title, author, comments, etc
+제목, 작성자, 코멘트 수 등등을 보여줄 텍스트들
+
 An image, we are going to use Picasso (see the build.gradle file in the commit below)
+이미지, Picasso 라이브러리를 이용할겁니다. (밑의 commit에서 build.gradle 파일을 보세요)
+
 An Extension Function to show the time in this way.
+위와 같은 방법으로 작성 시간을 보여줄 확장 함수
+
 Here you have all the code added to create the NewsDelegateAdapter as we are not going to go throw each detail:
+NEwsDelegateAdapter를 생성하기 위해 추가한 모든 코드는 다음 링크에 있고 모든 부분을 자세하게 보진 않을 겁니다.
+
 https://github.com/juanchosaravia/KedditBySteps/commit/6243623afeb1990a9d98488ee3ffc5623bc9fa61
+
 Let’s review some Kotlin stuff:
+코틀린 관련 부분을 보도록 하죠.
+
+
 Extension Function for Picasso
+
 Allows me to make an ImageView to load it’s image directly:
+이미지를 직접 로드해서 ImageView를 만들 수 있게 했습니다.
+
 fun ImageView.loadImg(imageUrl: String) {
     if (TextUtils.isEmpty(imageUrl)) {
         Picasso.with(context).load(R.mipmap.ic_launcher).into(this)
@@ -308,31 +333,69 @@ fun ImageView.loadImg(imageUrl: String) {
         Picasso.with(context).load(imageUrl).into(this)
     }
 }
+
+
 Extension Function for Time
+
 We will be receiving from Reddit, the time of a comment in a long format, so what we are doing here is to convert a Long type to an String with the format like “3 days and 1 minute ago”:
+Reddit으로부터 받은 long type 으로 된 코멘트의 시간이 있는데 이걸 “3 days and 1 minute ago”과 같은 문자열 포맷으로 바꿔줍니다. 
+
+
 fun Long.getFriendlyTime(): String {
     // logic here...
 }
+
 Checkout the file called “TimeExt.kt” to see the code. For sure, it can be improved but for the purpose of this example is perfect :)
+TimeExt.kt 파일에서 코드를 볼 수 있습니다. 좀 더 개선시킬 부분이 있긴 합니다만 이 예제에서는 완벽하게 작동합니다. 
+
+
 Android Extensions for News View
+
 Checkout the file “NewsDelegateAdapter.kt” and you will see that we are also using Android Extensions for this view (like we did with the NewsFragment) but in this case we are adding to the synthetic package an extra value called “view” at the end of the layout name:
+“NewsDelegateAdapter.kt" 파일을 살펴보면 이 뷰를 위해 Android Extensions이 사용 된 것을 알 수 있을 것입니다만 이번 경우에는 layout 이름 끝에 "view"라는 명확한 값을 synthetic package에 추가 했습니다. 
+
 import kotlinx.android.synthetic.main.news_item.view.*
+
+
 This is the way that Android Extensions allows you to still bind a view with code without being in the context of an Activity or Fragment (like in this case).
+이 방법은 Android Extenstions이 Activity나 Fragment의 Context 없이도 code와 view를 bind할 수 있습니다.
+
+
+
 Update NewsAdapter to receive News
 Let’s modify our NewsAdapter to receive a list of mocked news to be shown with our news and loading delegated adapters:
+우리의 NewsAdapter를 더미(mock) 뉴스 리스트를 받아오도록 수정해서 news와 loading delegate adapter 이용해 보여주도록 합시다.
 
 Commit
 https://github.com/juanchosaravia/KedditBySteps/commit/205258e841d4cc2203cfbcc3e33165fa8a105dce
+
+
 Range
-Kotlin allows you to create in an easy way a range of numbers (Int, Long and Char types) by using an expression like this: “1..10”, this will return an IntRange (as we are using Ints in this example), IntRange extends from IntProgression and this implements Iterable. Thanks to this is that we can iterate over the range that we have, in this case from 1 to 10 to create our mock data:
+Kotlin allows you to create in an easy way a range of numbers (Int, Long and Char types) by using an expression like this: “1..10”, this will return an IntRange (as we are using Ints in this example), IntRange extends from IntProgression and this implements Iterable. 
+코틀린은 "1..10"과 같은 expression을 사용해 숫자의 범위를 나타낼 수 있도록 쉽게 만들 수 있습니다. 이 expression은 IntRange를 리턴하며 IntRange는 IntProgression으로부터 extend되고 Iterable을 implement 한 것입니다.
+
+Thanks to this is that we can iterate over the range that we have, in this case from 1 to 10 to create our mock data:
+이 방법 덕분에 편하게 범위를 순회할 수 있는데 우리의 경우에서는 1에서 10까지 더미 데이터를 생성할 때 사용 됩니다. 
+
 for (i in 1..10) {
     ...
 }
+
+
 You can control the steps in the range and make it decremental like “10 downTo 1”. More about this you can find it here.
+range를 "10에서 1까지 내려가는" 것처럼 역순으로 바꿀 수도 있습니다. 좀 더 자세한 내용은 여길 보세요.
+
+
 mutableListOf
+
 This is a Kotlin function which returns a MutableList, a list that can be modified and in this case is to store locally the mocked news for the adapter:
+이것은 MutableList를 리턴하는 코틀린 함수 입니다. 이 리스트는 수정할 수 있고 이번 경우에는 adapter에 사용하기 위해 더미 news를 locally 저장합니다.
+
 val news = mutableListOf<RedditNewsItem>()
+
+
 Lists Functions & Lambdas
+
 I created a method that I’ll be using it later to save the news when we are in the middle of an Orientation Change event but I would like to show you how easy is to work with list to filter and map (transform) every item from a list to another one.
 In our code we have a method called “getNews” which returns a List of RedditNewsItems. In order to filter and transform our items (a list of ViewType) we are going to do this:
 fun getNews(): List<RedditNewsItem> {
